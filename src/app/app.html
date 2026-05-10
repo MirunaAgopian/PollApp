@@ -1,4 +1,19 @@
-Testing ground for CRUD operations inside Supabase
+Testing ground for CRUD operations inside Supabase <br>
+
+I loop through the surveys array with a for loop
+
+@for (survey of testSurveyVariable.surveys(); track survey.id) {
+  <h1>{{ survey.title }}</h1>
+  <p>{{survey.description}}</p>
+}
+<br> <br>
+
+TEST for feting one singe survey data
+
+@if (testSurveyVariable.singleSurvey(); as survey) {
+  <h1>{{ survey.title }}</h1>
+  <p>{{ survey.description }}</p>
+}
 
 
 <router-outlet />

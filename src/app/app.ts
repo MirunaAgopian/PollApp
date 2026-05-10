@@ -1,5 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+//test, also inject is from the test!
+import { SurveyService } from './core/services/survey.service';
 
 @Component({
   selector: 'app-root',
@@ -9,4 +11,9 @@ import { RouterOutlet } from '@angular/router';
 })
 export class App {
   protected readonly title = signal('PollApp');
+  //test
+  testSurveyVariable = inject(SurveyService);
+  ngOnInit(){
+      this.testSurveyVariable.getSingleSurvey("1");
+  }
 }
