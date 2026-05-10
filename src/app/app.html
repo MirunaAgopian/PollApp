@@ -8,11 +8,16 @@ I loop through the surveys array with a for loop
 }
 <br> <br>
 
-TEST for feting one singe survey data
+TEST for fetching one singe survey data
 
 @if (testSurveyVariable.singleSurvey(); as survey) {
   <h1>{{ survey.title }}</h1>
   <p>{{ survey.description }}</p>
+  <p>{{testQuestionVariable.questions()[0]?.text}}</p>
+  <p>{{testOptionVariable.options()[0]?.text}}</p>
+  <p>{{testOptionVariable.options()[1]?.text}}</p>
+  <p>This is the option id for a vote: {{testVoteVariable.votes()[0]?.question_id}}</p>
+
 }
 
 
