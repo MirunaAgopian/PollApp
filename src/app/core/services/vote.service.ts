@@ -23,7 +23,7 @@ export class VoteService {
     }
   }
 
-  subscribeToVotes(optionId: string) {
+  listenForVoteInserts(optionId: string) {
     this.voteChannel = supabase
       .channel('votes-channel')
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'votes' }, (payload) => {
@@ -35,13 +35,13 @@ export class VoteService {
       .subscribe();
   }
 
-  unsubscribeFromVotes() {
+  stopListeningForVoteInserts() {
     if (this.voteChannel) {
       this.voteChannel.unsubscribe();
       this.voteChannel = null;
     }
   }
 
-  //both subscribeToVotes and unsubscribeFromVotes must be called later in their
+  //both listenForVoteInserts and stopListeningForVoteInserts must be called later in their
   //respective component!
 }

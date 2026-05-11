@@ -15,7 +15,7 @@ import { VoteService } from './core/services/vote.service';
 })
 export class App {
   protected readonly title = signal('PollApp');
-  //TEST
+  //TEST for GET-Functions
   testSurveyVariable = inject(SurveyService);
   testQuestionVariable = inject(QuestionService);
   testOptionVariable = inject(OptionService);
@@ -39,5 +39,9 @@ export class App {
   if (!secondOption) return;
 
   await this.testVoteVariable.getVotesForOption(secondOption.id.toString());
+
+  //TESTS for INTSERT-Functions
+  // this.testSurveyVariable.insertSurvey(); - this works!
+  
   }
 }
