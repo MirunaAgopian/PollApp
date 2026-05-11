@@ -9,10 +9,15 @@ export class QuestionService {
   questions = signal<Question[]>([]);
 
   async getQuestionsForSurvey(surveyId: string) {
-    let { data: questions, error } = await supabase
-      .from('questions')
-      .select('*')
-      .eq('survey_id', surveyId);
-    this.questions.set(questions ?? ([] as Question[]));
+    try {
+      let { data: questions, error } = await supabase
+        .from('questions')
+        .select('*')
+        .eq('survey_id', surveyId);
+        if(error) console.error("getQuestionsForSurvey error:", error);
+      this.questions.set(questions ?? ([] as Question[]));
+    } catch (err) {
+      console.error('Unexpected error in getQuestionsForSurvey', err);
+    }
   }
 }

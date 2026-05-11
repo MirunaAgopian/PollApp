@@ -9,11 +9,17 @@ export class OptionService {
   options = signal<Option[]>([]);
 
   async getOptionsForQuestion(questionId: string) {
-    let { data: options, error } = await supabase
-      .from('options')
-      .select('*')
-      .eq('question_id', questionId);
+    try {
+      let { data: options, error } = await supabase
+        .from('options')
+        .select('*')
+        .eq('question_id', questionId);
+
+      if (error) console.error('getOptionsForQuestion error:', error);
 
       this.options.set(options ?? ([] as Option[]));
+    } catch (err) {
+      console.error('Unexpected error in getOptionsForQuestion:', err);
+    }
   }
 }

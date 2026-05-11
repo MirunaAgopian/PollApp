@@ -11,9 +11,16 @@ export class VoteService {
   voteChannel: RealtimeChannel | null = null;
 
   async getVotesForOption(optionId: string) {
-    let { data: votes, error } = await supabase.from('votes').select('*').eq('option_id', optionId);
-
-    this.votes.set(votes ?? ([] as Vote[]));
+    try {
+      let { data: votes, error } = await supabase
+        .from('votes')
+        .select('*')
+        .eq('option_id', optionId);
+      if (error) console.error('getVotesForOption error:', error);
+      this.votes.set(votes ?? ([] as Vote[]));
+    } catch (err) {
+      console.error('Unexpected error in getVotesForOption:', err);
+    }
   }
 
   subscribeToVotes(optionId: string) {
@@ -35,6 +42,6 @@ export class VoteService {
     }
   }
 
-  //both subscribeToVotes and unsubscribeFromVotes must be called later in their 
+  //both subscribeToVotes and unsubscribeFromVotes must be called later in their
   //respective component!
 }
