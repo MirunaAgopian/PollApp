@@ -18,10 +18,10 @@ export class SurveyService {
   async getAllSurveys() {
     try {
       let { data: surveys, error } = await supabase.from('surveys').select('*');
-      if (error) console.error('getAllSurveys error:', error);
+      if (error) console.error('Supabase error at getAllSurveys:', error);
       this.surveys.set(surveys ?? ([] as Survey[]));
     } catch (err) {
-      console.error('Unexpected error in getAllSurveys', err);
+      console.error('Unexpected JS runtime error at getAllSurveys', err);
     }
   }
 
@@ -32,10 +32,10 @@ export class SurveyService {
         .select('*')
         .eq('id', id)
         .single();
-      if (error) console.error('getSingleSurvey error:', error);
+      if (error) console.error('Supabase error at getSingleSurvey:', error);
       this.singleSurvey.set(surveys);
     } catch (err) {
-      console.error('Unexpected error in getSingleSurvey:', err);
+      console.error('Unexpected JS runtime error in getSingleSurvey:', err);
     }
   }
 
@@ -54,11 +54,11 @@ export class SurveyService {
         })
         .select();
       if (error) {
-        console.error('Supabase error:', error);
+        console.error('Supabase error at insertSurvey:', error);
         return;
       }
     } catch (err) {
-      console.error('Unexpected runtime error:', err);
+      console.error('Unexpected JS runtime error at insertSurvey:', err);
     }
   }
 

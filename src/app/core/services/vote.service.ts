@@ -16,10 +16,31 @@ export class VoteService {
         .from('votes')
         .select('*')
         .eq('option_id', optionId);
-      if (error) console.error('getVotesForOption error:', error);
+      if (error) console.error('Supabase error at getVotesForOption:', error);
       this.votes.set(votes ?? ([] as Vote[]));
     } catch (err) {
-      console.error('Unexpected error in getVotesForOption:', err);
+      console.error('Unexpected JS runtime error at getVotesForOption:', err);
+    }
+  }
+
+  async insertVote() {
+    try {
+      const { data, error } = await supabase
+        .from('votes')
+        .insert(
+          //TEST
+          {
+            question_id: 1,
+            option_id: 3
+          }
+          //TEST
+        )
+        .select();
+        if(error){
+          console.error("Supabase error at insertVotes:", error);
+        }
+    } catch (err) {
+      console.error("Unexpected JS runtime error at insertVotes", err);
     }
   }
 
@@ -41,7 +62,4 @@ export class VoteService {
       this.voteChannel = null;
     }
   }
-
-  //both listenForVoteInserts and stopListeningForVoteInserts must be called later in their
-  //respective component!
 }
