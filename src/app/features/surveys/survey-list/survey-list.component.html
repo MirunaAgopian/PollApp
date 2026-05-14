@@ -1,1 +1,11 @@
-<p>survey-list works!</p>
+<section>
+  @for (item of surveyList(); track item.id; let i = $index) {
+    <article class="survey-card">
+      <span class="survey-card__category">{{ item.category }}</span>
+      <h2 class="survey-card__title">{{ item.title }}</h2>
+      <span class="survey-card__end-date">{{ calculateRemainingDays(item.end_date )}}</span>
+    </article>
+  } @empty {
+    <span>Huhu! There are no surveys to display!</span>
+  }
+</section>
