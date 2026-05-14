@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Option } from '../../../core/interfaces/option.interface'
 
 @Component({
   selector: 'app-option-item',
@@ -6,4 +7,6 @@ import { Component } from '@angular/core';
   templateUrl: './option-item.component.html',
   styleUrl: './option-item.component.scss',
 })
-export class OptionItem {}
+export class OptionItem {
+  @Input() option!: Option;
+}

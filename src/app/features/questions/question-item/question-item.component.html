@@ -1,1 +1,9 @@
-<p>question-item works!</p>
+<div>
+    <p>{{question.order_index}}. {{question.text}}</p>
+    @if(isMultipleAllowed()){
+        <small>Multiple answers are possible.</small>
+    }
+    @for(o of questionOptions(); track o) {
+        <app-option-item [option]="o"></app-option-item>
+    }
+</div>

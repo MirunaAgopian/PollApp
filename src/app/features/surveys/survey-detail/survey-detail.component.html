@@ -1,11 +1,16 @@
 <section>
-    <article>
-        <span>{{getPublishLabel()}}</span>
-        <div>
-            <p>Ends on {{formatEndDate()}}</p>
-            <p>Category: {{surveyDetails()?.category}}</p>
-        </div>
-        <h2>{{surveyDetails()?.title}}</h2>
-        <p>{{surveyDetails()?.description}}</p>
-    </article>
+  <article>
+    <span>{{ getPublishLabel() }}</span>
+    <div>
+      <p>Ends on {{ formatEndDate() }}</p>
+      <p>Category: {{ surveyDetails()?.category }}</p>
+    </div>
+    <h2>{{ surveyDetails()?.title }}</h2>
+    <p>{{ surveyDetails()?.description }}</p>
+  </article>
+  <article>
+    @for (q of surveyQuestions(); track q) {
+      <app-question-item [question]="q"></app-question-item>
+    }
+  </article>
 </section>
