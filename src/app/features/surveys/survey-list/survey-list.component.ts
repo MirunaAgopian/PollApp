@@ -1,9 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { SurveyService } from '../../../core/services/survey.service';
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-survey-list',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './survey-list.component.html',
   styleUrl: './survey-list.component.scss',
 })
