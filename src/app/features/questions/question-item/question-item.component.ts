@@ -53,4 +53,6 @@ export class QuestionItem {
   isMultipleAllowed(): boolean {
     return this.question.allow_multiple === true;
   }
+
+  
 }
