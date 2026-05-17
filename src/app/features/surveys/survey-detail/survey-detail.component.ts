@@ -16,7 +16,7 @@ export class SurveyDetail {
 
   surveyDetails = this.surveyService.singleSurvey;
   surveyQuestions = this.questionService.questions;
-
+ 
   private route = inject(ActivatedRoute);
 
   ngOnInit() {
