@@ -1,4 +1,9 @@
-<ul>
-    <li>{{option.order_index}} {{option.text}}</li>
-    <app-vote-results [votes]="votes()" [option]="option"></app-vote-results>
-</ul>
+<section>
+  <ul>
+    <li>{{ option.order_index }} {{ option.text }}</li>
+  </ul>
+  <app-vote-results
+    [voteCount]="getVoteCount()"
+    [totalVotes]="totalVotesFromQuestion"
+  ></app-vote-results>
+</section>

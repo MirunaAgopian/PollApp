@@ -1,4 +1,4 @@
-import { Component, inject, Input, signal } from '@angular/core';
+import { Component, inject, input, Input, signal } from '@angular/core';
 import { Option } from '../../../core/interfaces/option.interface';
 import { VoteResults } from '../../votes/vote-results/vote-results.component';
 import { Vote } from '../../../core/interfaces/vote.interface';
@@ -15,6 +15,7 @@ import { RealtimeChannel } from '@supabase/supabase-js';
 
 export class OptionItem {
   @Input() option!: Option;
+  @Input() totalVotesFromQuestion! : number;
   voteService = inject(VoteService);
   votes = signal<Vote[]>([]);
   private voteChannel: RealtimeChannel | null = null;
@@ -44,5 +45,9 @@ export class OptionItem {
       this.voteChannel.unsubscribe();
       this.voteChannel = null;
     }
+  }
+
+  getVoteCount(){
+    return this.votes().length;
   }
 }

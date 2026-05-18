@@ -1,17 +1,22 @@
 import { Component, Input } from '@angular/core';
-import { Vote } from '../../../core/interfaces/vote.interface';
-import { Option } from '../../../core/interfaces/option.interface';
+import { PercentagePipe } from '../../../shared/pipes/percentage-pipe';
 
 @Component({
   selector: 'app-vote-results',
-  imports: [],
+  imports: [PercentagePipe],
   templateUrl: './vote-results.component.html',
   styleUrl: './vote-results.component.scss',
 })
 export class VoteResults {
-  @Input() votes!: Vote[];
-  @Input() option!: Option;
+  @Input() voteCount!: number;
+  @Input() totalVotes!: number;
 
-  voteCount = this.votes.length; 
+  computeVotesToPercentages(){
+    if(this.totalVotes === 0) {
+      return 0;
+    } else {
+      return (this.voteCount / this.totalVotes) * 100;
+    }
+  }
 
 }

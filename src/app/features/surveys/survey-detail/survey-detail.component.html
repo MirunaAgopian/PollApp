@@ -9,7 +9,7 @@
     <p>{{ surveyDetails()?.description }}</p>
   </article>
   <article>
-    @for (q of surveyQuestions(); track q) {
+    @for (q of surveyQuestions(); track q.id) {
       <app-question-item [question]="q"></app-question-item>
     }
   </article>

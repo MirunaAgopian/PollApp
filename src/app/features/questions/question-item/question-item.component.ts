@@ -1,4 +1,4 @@
-import { Component, Input, inject, signal } from '@angular/core';
+import { Component, ElementRef, Input, QueryList, ViewChildren, inject, signal, viewChildren } from '@angular/core';
 import { Question } from '../../../core/interfaces/question.interface';
 import { OptionService } from '../../../core/services/option.service';
 import { OptionItem } from '../../options/option-item/option-item.component';
@@ -17,11 +17,17 @@ export class QuestionItem {
   optionService = inject(OptionService);
   options = signal<Option[]>([]);
   private optionChannel: RealtimeChannel | null = null;
+  @ViewChildren(OptionItem) optionItems!: QueryList<OptionItem>;
+  totalVotes = signal(0);
 
   async ngOnInit() {
     const initialOptions = await this.optionService.getOptionsForQuestion(this.question.id);
     this.options.set(initialOptions);
     this.listenForOptionInserts();
+  }
+
+  ngAfterViewInit(){
+    this.totalVotes.set(this.calculateAllVotes());
   }
 
   listenForOptionInserts() {
@@ -54,5 +60,12 @@ export class QuestionItem {
     return this.question.allow_multiple === true;
   }
 
-  
+  calculateAllVotes(){
+    let totalVotes = 0;
+    this.optionItems.forEach(item => {
+      totalVotes= totalVotes + item.getVoteCount();
+    });
+    return totalVotes;
+  }
+   
 }

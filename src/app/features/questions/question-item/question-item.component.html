@@ -3,7 +3,7 @@
     @if(isMultipleAllowed()){
         <small>Multiple answers are possible.</small>
     }
-    @for(o of options(); track o) {
-        <app-option-item [option]="o"></app-option-item>
+    @for(o of options(); track o.id) {
+        <app-option-item [option]="o" [totalVotesFromQuestion] = "totalVotes()"></app-option-item>
     }
 </div>
