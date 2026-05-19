@@ -1,17 +1,19 @@
-import { Component, ElementRef, Input, QueryList, ViewChildren, inject, signal, viewChildren } from '@angular/core';
+import { Component, Input, QueryList, ViewChildren, inject, signal } from '@angular/core';
 import { Question } from '../../../core/interfaces/question.interface';
 import { OptionService } from '../../../core/services/option.service';
 import { OptionItem } from '../../options/option-item/option-item.component';
 import { Option } from '../../../core/interfaces/option.interface';
 import { supabase } from '../../../core/services/supabase.client';
 import { RealtimeChannel } from '@supabase/supabase-js';
+import { VoteResults } from '../../votes/vote-results/vote-results.component';
 
 @Component({
   selector: 'app-question-item',
-  imports: [OptionItem],
+  imports: [OptionItem, VoteResults],
   templateUrl: './question-item.component.html',
   styleUrl: './question-item.component.scss',
 })
+
 export class QuestionItem {
   @Input() question!: Question;
   optionService = inject(OptionService);

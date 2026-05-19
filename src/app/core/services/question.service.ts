@@ -24,6 +24,7 @@ export class QuestionService {
     }
   }
 
+
   async insertQuestion() {
     try {
       const { data, error } = await supabase

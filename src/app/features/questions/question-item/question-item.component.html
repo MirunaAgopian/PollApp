@@ -1,9 +1,15 @@
-<div>
-    <p>{{question.order_index}}. {{question.text}}</p>
-    @if(isMultipleAllowed()){
-        <small>Multiple answers are possible.</small>
-    }
-    @for(o of options(); track o.id) {
-        <app-option-item [option]="o" [totalVotesFromQuestion] = "totalVotes()"></app-option-item>
-    }
-</div>
+<article>
+  <p>{{ question.order_index }}. {{ question.text }}</p>
+  @if (isMultipleAllowed()) {
+    <small>Multiple answers are possible.</small>
+  }
+  @for (o of options(); track o.id) {
+    <app-option-item [option]="o" [totalVotesFromQuestion]="totalVotes()"></app-option-item>
+  }
+
+  <section>
+    <h1>Survey results <span>LIVE</span></h1>
+    <app-vote-results [question]="question" [options]="options()" [totalVotes]="totalVotes()">
+    </app-vote-results>
+  </section>
+</article>

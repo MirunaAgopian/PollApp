@@ -1,4 +1,13 @@
 <section class="vote-results">
-    <div class="vote-results_bar"></div>
-    <span class="vote-restults_percentage">{{computeVotesToPercentages() | percentage:0}}</span>
+  <h2>{{ question.order_index }}. {{ question.text }}</h2>
+
+  @for (o of options; track o.id) {
+    <p>{{ o.order_index }}</p>
+    <div>
+      <div class="vote-results_bar"></div>
+      <span class="vote-restults_percentage">{{
+        computeVotesToPercentages() | percentage: 0
+      }}</span>
+    </div>
+  }
 </section>
