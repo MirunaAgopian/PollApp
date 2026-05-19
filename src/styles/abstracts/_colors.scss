@@ -1,0 +1,21 @@
+$colors: (
+  purple-dark: var(--color-purple-dark),
+  orange-primary: var(--color-orange-primary),
+  orange-secondary: var(--color-orange-secondary),
+  orange-tertiary: var(--color-orange-tertiary),
+  bg-card-light: var(--color-bg-card-light),
+  bg-card-dark: var(--color-bg-card-dark),
+);
+
+:root {
+  /* Brand colors */
+  --color-purple-dark: #35273a;
+
+  --color-orange-primary: #ffb770;
+  --color-orange-secondary: #ffcfa1;
+  --color-orange-tertiary: #fee9d4;
+
+  /* Backgrounds */
+  --color-bg-card-light: #faf5fe;
+  --color-bg-card-dark: #f4e9fb;
+}

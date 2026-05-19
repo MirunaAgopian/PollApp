@@ -1,1 +1,19 @@
-/* You can add global styles to this file, and also import other style files */
+/* ABSTRACTS */
+@import 'styles/abstracts/colors';
+@import 'styles/abstracts/variables';
+@import 'styles/abstracts/mixins';
+
+/* BASE */
+@import 'styles/base/reset';
+@import 'styles/base/typography';
+@import 'styles/base/global';
+
+/* LAYOUT */
+@import 'styles/layout/flex';
+@import 'styles/layout/spacing';
+
+/* COMPONENTS */
+@import 'styles/components/buttons';
+@import 'styles/components/cards';
+@import 'styles/components/inputs';
+@import 'styles/components/checkbox';

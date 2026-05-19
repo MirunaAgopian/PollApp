@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { SurveyList } from './features/surveys/survey-list/survey-list.component';
+import { LandingPage } from './pages/landing-page/landing-page';
 
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, SurveyList],
+  imports: [RouterOutlet, LandingPage],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
