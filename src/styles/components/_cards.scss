@@ -1,0 +1,42 @@
+//Primary card on landing page
+.card-primary {
+  background-color: var(--color-bg-card-light);
+  color: var(--color-purple-dark);
+  border-radius: 0 75px 0 0;
+  width: 300px;
+  padding: 32px;
+  @include flex-column-space-btw;
+  cursor: pointer;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+
+  &:hover {
+    background-color: var(--color-bg-card-dark);
+
+    .card-primary__badge {
+        background-color: var(--color-orange-primary);
+    }
+  }
+
+  &__category {
+    font-family: var(--font-text-semibold);
+    font-size: var(--font-size-text-small);
+  }
+
+  &__title {
+    margin-top: 12px;
+  }
+
+  &__badge {
+    background-color: var(--color-orange-secondary);
+    font-family: var(--font-text-semibold);
+    font-size: 12px;
+    border-radius: 0 10px 0 0;
+    padding: 6px;
+    margin-top: 24px;
+    width: 120px;
+  }
+}
+
+//Card-secondary on landing page
