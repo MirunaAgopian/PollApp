@@ -1,0 +1,67 @@
+/* Base button style */
+.btn {
+  font-family: var(--font-button);
+  font-size: var(--font-size-button);
+  font-weight: 700;
+  padding: 0.65rem 1.1rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Primary CTA */
+.btn--primary {
+  background-color: var(--color-orange-secondary);
+  color: #221227;
+
+  &:hover {
+    background-color: var(--color-orange-primary);
+  }
+}
+
+/* Plus icon on hover */
+.btn--icon-plus {
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    width: 0;
+    height: 20px;
+    margin-left: 0.5rem;
+    background: url('../../../public/assets/images/icons/add_circle.svg') no-repeat center;
+    background-size: contain;
+    transition: width 0.2s ease;
+  }
+
+  &:hover::after {
+    width: 20px;
+  }
+}
+
+/* Check icon on hover */
+.btn--icon-check {
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    width: 0;
+    height: 20px;
+    margin-left: 0.5rem;
+    background: url('../../../public/assets/images/icons/checkmark.svg') no-repeat center;
+    background-size: contain;
+    transition: width 0.2s ease;
+  }
+
+  &:hover::after {
+    width: 20px;
+  }
+}
+
+/* Secondary button */
+
+/* Tertiary button */

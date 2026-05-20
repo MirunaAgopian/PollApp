@@ -1,7 +1,140 @@
+@import '../../../styles/abstracts/mixins';
 
 .landing-header {
   img {
     height: 80px;
     width: 100px;
+  }
+}
+
+.landing-page {
+  color: white;
+  margin-top: 40px;
+
+  h1 {
+    font-family: var(--font-heading);
+    color: var(--color-orange-primary);
+    font-size: var(--font-size-h1);
+  }
+
+  h2 {
+    font-family: var(--font-heading);
+    color: var(--color-orange-primary);
+    font-size: var(--font-size-h2);
+    text-align: center;
+  }
+
+  h3 {
+    font-family: var(--font-text-medium);
+    font-size: var(--font-size-text-large);
+  }
+}
+
+.landing-page__hero {
+  p {
+    font-family: var(--font-text-semibold);
+    font-size: var(--font-size-text-medium);
+  }
+
+  @include flex-space-btw;
+
+  &-left {
+    @include flex-column-space-btw;
+    gap: 40px;
+
+    > * {
+      width: fit-content;
+    }
+  }
+}
+
+.landing-page__ending-soon {
+  @include flex-column-space-btw;
+  gap: 40px;
+}
+
+
+//Maybe I will transfer the code for the visual into a component
+.landing-page__visual {
+  position: relative;
+  width: 500px;
+  height: 400px;
+
+  &-center {
+    width: 100%;
+    z-index: 2;
+    position: relative;
+  }
+
+  &-icon {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    z-index: 1;
+
+    .landing-page__visual:hover & {
+      animation-play-state: paused;
+    }
+
+    &--chat {
+      top: 8%;
+      left: 20%;
+      animation: orbit-chat 1.5s ease-in-out infinite alternate;
+    }
+
+    &--check {
+      bottom: -15%;
+      right: 10%;
+      animation: orbit-check 2.2s ease-in-out infinite alternate;
+    }
+
+    &--star {
+      bottom: -20%;
+      left: 20%;
+      animation: orbit-star 1.8s ease-in-out infinite alternate;
+    }
+
+    &--question {
+      top: 5%;
+      right: 15%;
+      animation: orbit-question 2s ease-in-out infinite alternate;
+    }
+  }
+}
+
+// Keyframes
+@keyframes orbit-chat {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(-40px, -40px);
+  }
+}
+
+@keyframes orbit-check {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(40px, 40px);
+  }
+}
+
+@keyframes orbit-star {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(-40px, 40px);
+  }
+}
+
+@keyframes orbit-question {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(40px, -40px);
   }
 }
