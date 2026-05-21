@@ -16,3 +16,21 @@
   justify-content: space-between;
 }
 
+@mixin thin-scrollbar() {
+  scrollbar-width: thin;
+  scrollbar-color: #faf5fe transparent;
+  &::-webkit-scrollbar {
+    height: 1px;
+    width: 1px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #faf5fe;
+    border-radius: 10px;
+    height: 1px;
+  }
+}

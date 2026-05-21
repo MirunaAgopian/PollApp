@@ -8,6 +8,10 @@ import { SurveyList } from '../../features/surveys/survey-list/survey-list.compo
   styleUrl: './landing-page.scss',
 })
 export class LandingPage {
+  activeFilter: 'active' | 'past' = 'active';
+  isCategoriesOpen = false;
+
+
   ngOnInit() {
     document.body.setAttribute('data-page', 'landing');
   }

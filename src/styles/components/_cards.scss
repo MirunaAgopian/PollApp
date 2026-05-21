@@ -4,6 +4,7 @@
   color: var(--color-purple-dark);
   border-radius: 0 75px 0 0;
   width: 300px;
+  height: 250px;
   padding: 32px;
   @include flex-column-space-btw;
   cursor: pointer;
@@ -38,5 +39,8 @@
     width: 120px;
   }
 }
+
+//Dropdown on landing page
+
 
 //Card-secondary on landing page

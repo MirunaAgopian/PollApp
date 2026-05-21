@@ -28,6 +28,10 @@
     font-family: var(--font-text-medium);
     font-size: var(--font-size-text-large);
   }
+
+  p {
+    font-family: var(--font-text-semibold);
+  }
 }
 
 .landing-page__hero {
@@ -53,88 +57,19 @@
   gap: 40px;
 }
 
+.landing-page__filters-top {
+  @include flex-space-btw;
 
-//Maybe I will transfer the code for the visual into a component
-.landing-page__visual {
-  position: relative;
-  width: 500px;
-  height: 400px;
-
-  &-center {
-    width: 100%;
-    z-index: 2;
-    position: relative;
+  .landing-page__filters-left {
+    @include flex-space-btw;
+    gap: 16px;
   }
 
-  &-icon {
-    position: absolute;
-    width: 80px;
-    height: 80px;
-    z-index: 1;
-
-    .landing-page__visual:hover & {
-      animation-play-state: paused;
-    }
-
-    &--chat {
-      top: 8%;
-      left: 20%;
-      animation: orbit-chat 1.5s ease-in-out infinite alternate;
-    }
-
-    &--check {
-      bottom: -15%;
-      right: 10%;
-      animation: orbit-check 2.2s ease-in-out infinite alternate;
-    }
-
-    &--star {
-      bottom: -20%;
-      left: 20%;
-      animation: orbit-star 1.8s ease-in-out infinite alternate;
-    }
-
-    &--question {
-      top: 5%;
-      right: 15%;
-      animation: orbit-question 2s ease-in-out infinite alternate;
+  .landing-page__filters-right {
+    span {
+      font-size: var(--font-size-text-medium);
     }
   }
 }
 
-// Keyframes
-@keyframes orbit-chat {
-  0% {
-    transform: translate(0, 0);
-  }
-  100% {
-    transform: translate(-40px, -40px);
-  }
-}
 
-@keyframes orbit-check {
-  0% {
-    transform: translate(0, 0);
-  }
-  100% {
-    transform: translate(40px, 40px);
-  }
-}
-
-@keyframes orbit-star {
-  0% {
-    transform: translate(0, 0);
-  }
-  100% {
-    transform: translate(-40px, 40px);
-  }
-}
-
-@keyframes orbit-question {
-  0% {
-    transform: translate(0, 0);
-  }
-  100% {
-    transform: translate(40px, -40px);
-  }
-}

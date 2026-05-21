@@ -1,20 +1,21 @@
-/* ABSTRACTS */
+// ABSTRACTS 
 @import 'abstracts/colors';
 @import 'abstracts/variables';
 @import 'abstracts/mixins';
 
-/* BASE */
+// BASE 
 @import 'base/reset';
 @import 'base/typography';
 @import 'base/global';
 
-/* LAYOUT */
+// LAYOUT 
 @import 'layout/flex';
 @import 'layout/spacing';
 
-/* COMPONENTS */
+// COMPONENTS 
 @import 'components/buttons';
 @import 'components/cards';
 @import 'components/inputs';
 @import 'components/checkbox';
+@import 'components/visual-hero';
 

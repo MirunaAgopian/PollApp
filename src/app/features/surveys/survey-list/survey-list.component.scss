@@ -1,0 +1,13 @@
+@import "../../../../styles/abstracts/mixins";
+
+h3 {
+  font-family: var(--font-text-medium);
+  font-size: var(--font-size-text-large);
+}
+
+.landing-page__ending-soon-cards {
+  @include flex-space-btw;
+  gap: 16px;
+  overflow-x: scroll;
+  @include thin-scrollbar;
+}
