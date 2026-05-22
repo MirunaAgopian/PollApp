@@ -83,14 +83,13 @@
 }
 /* Tertiary button */
 .btn-tertiary {
-  @include flex-space-btw;
-  gap: 16px;
+  @include flex-center;
+  gap: 32px;
   padding: 10px 12px;
   background: transparent;
   border-radius: 15px;
   border: none;
   cursor: pointer;
-
   font-family: var(--font-button);
   font-size: var(--font-size-button);
   color: white;

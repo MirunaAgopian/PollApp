@@ -5,6 +5,7 @@ $colors: (
   orange-tertiary: var(--color-orange-tertiary),
   bg-card-light: var(--color-bg-card-light),
   bg-card-dark: var(--color-bg-card-dark),
+  bg-dropdown: var(--color-bg-card-dropdown),
 );
 
 :root {
@@ -18,4 +19,5 @@ $colors: (
   /* Backgrounds */
   --color-bg-card-light: #faf5fe;
   --color-bg-card-dark: #f4e9fb;
+  --color-bg-card-dropdown: #ffffff;
 }
