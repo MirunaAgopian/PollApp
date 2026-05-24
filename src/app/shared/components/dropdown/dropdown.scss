@@ -15,14 +15,13 @@
   transition: transform 0.2s ease;
 }
 
- .dropdown__selected-category {
-    font-family: var(--font-button);
-    font-size: var(--font-size-button);
-    color: var(--color-orange-primary);
-    display: block;
-    text-align: center;
-    z-index: 1;
-  }
+.dropdown__selected-category {
+  font-family: var(--font-button);
+  font-size: var(--font-size-button);
+  color: var(--color-orange-primary);
+  display: block;
+  text-align: center;
+}
 
 .dropdown {
   background-color: var(--color-bg-card-dropdown);

@@ -1,4 +1,12 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild,
+  ElementRef,
+  HostListener,
+} from '@angular/core';
 
 @Component({
   selector: 'app-dropdown',
@@ -7,18 +15,28 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   styleUrl: './dropdown.scss',
 })
 export class Dropdown {
-  @Input() label: string = "Sort by categories"
+  @Input() label: string = '';
   @Input() options: string[] = [];
   @Input() value: string | null = null;
   @Output() valueChange = new EventEmitter<string>();
+  @ViewChild('dropdownRef') dropdownRef!: ElementRef;
 
   isCategoriesOpen = false;
 
-  toggleDropdown(){
+  toggleDropdown() {
     this.isCategoriesOpen = !this.isCategoriesOpen;
   }
 
-  select(option:string){
+  @HostListener('document:click', ['$event'])
+  handleOutsideClick(event: Event) {
+    const target = event.target as HTMLElement;
+    const clickedInside = this.dropdownRef.nativeElement.contains(target);
+    if (!clickedInside) {
+      this.isCategoriesOpen = false;
+    }
+  }
+
+  select(option: string) {
     this.value = option;
     this.valueChange.emit(option);
     this.isCategoriesOpen = false;

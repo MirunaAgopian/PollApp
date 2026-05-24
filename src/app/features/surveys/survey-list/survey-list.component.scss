@@ -8,6 +8,4 @@ h3 {
 .landing-page__ending-soon-cards {
   @include flex-space-btw;
   gap: 16px;
-  overflow-x: scroll;
-  @include thin-scrollbar;
 }

@@ -1,4 +1,4 @@
-<div class="dropdown-wrapper">
+<div class="dropdown-wrapper" #dropdownRef>
   <button
     class="btn-tertiary dropdown__trigger"
     (click)="toggleDropdown()"
@@ -12,12 +12,11 @@
       />
     </svg>
   </button>
-
   <span class="dropdown__selected-category">{{ value }}</span>
   <ul class="dropdown" [class.dropdown--open]="isCategoriesOpen">
-    @for (option of options; track option) {
-      <li class="dropdown__item" (click)="select(option)">
-        {{ option }}
+    @for (o of options; track o) {
+      <li class="dropdown__item" (click)="select(o)">
+        {{ o }}
       </li>
     }
   </ul>
