@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { LandingPage } from '../app/pages/landing-page/landing-page';
-import { SurveyDetail } from './features/surveys/survey-detail/survey-detail.component';
+import { SurveyPage } from '../app/pages/survey-page/survey-page'
 
 export const routes: Routes = [
   {
@@ -9,6 +9,6 @@ export const routes: Routes = [
   },
   {
     path: 'survey/:id',
-    component: SurveyDetail,//this should be changed with the surveyPageComponent
+    component: SurveyPage,
   },
 ];
