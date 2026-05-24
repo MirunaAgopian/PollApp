@@ -41,3 +41,31 @@
 }
 
 //Card-secondary on landing page
+.card-secondary {
+  background-color: var(--color-bg-card-secondary);
+  cursor: pointer;
+  padding: 20px 40px;
+  border-radius: 0 65px 0 0;
+  height: 150px;
+  @include flex-column-space-btw;
+
+  &:hover {
+    background-color: var(--color-bg-card-secondary-hover);
+
+    .card-secondary__badge {
+      background-color: var(--color-orange-primary);
+    }
+  }
+
+  &__badge {
+    color: var(--color-purple-dark);
+    align-self: flex-end;
+    background-color: var(--color-orange-secondary);
+    font-family: var(--font-text-semibold);
+    font-size: 12px;
+    border-radius: 0 10px 0 0;
+    padding: 6px;
+    margin-top: 24px;
+    width: 120px;
+  }
+}

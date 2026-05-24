@@ -1,11 +1,25 @@
-<div class="landing-page__ending-soon-cards">
+<div
+  [ngClass]="{
+    'landing-page__ending-soon-cards': !secondaryStyle,
+    'landing-page__active-cards': secondaryStyle,
+  }"
+>
   @for (item of getfilteredSurveys(); track item.id) {
-    <article class="card-primary" [routerLink]="['survey', item.id]">
+    <article
+      [class.card-primary]="!secondaryStyle"
+      [class.card-secondary]="secondaryStyle"
+      [routerLink]="['survey', item.id]"
+    >
       <p class="card-primary__category">{{ item.category }}</p>
       <h3 class="card-primary__title">{{ item.title }}</h3>
-      <span class="card-primary__badge">{{ calculateRemainingDays(item.end_date) }}</span>
+      <span
+        [class.card-primary__badge]="!secondaryStyle"
+        [class.card-secondary__badge]="secondaryStyle"
+      >
+        {{ calculateRemainingDays(item.end_date) }}
+      </span>
     </article>
   } @empty {
-    <span>Huhu! There are no surveys to display!</span>
+    <span class="no-surveys">Huhu! There are no surveys to display!</span>
   }
 </div>

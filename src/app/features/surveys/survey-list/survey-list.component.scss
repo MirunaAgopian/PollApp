@@ -1,4 +1,4 @@
-@import "../../../../styles/abstracts/mixins";
+@import '../../../../styles/abstracts/mixins';
 
 h3 {
   font-family: var(--font-text-medium);
@@ -8,4 +8,12 @@ h3 {
 .landing-page__ending-soon-cards {
   @include flex-space-btw;
   gap: 16px;
+}
+
+.landing-page__active-cards {
+  @include grid-two-columns;
+}
+
+.no-surveys {
+  font-size: var(--font-size-text-medium);
 }
