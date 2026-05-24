@@ -22,6 +22,10 @@
   gap: 1.5rem;
 }
 
+@mixin reset-li {
+  list-style-type: none;
+}
+
 @mixin thin-scrollbar() {
   scrollbar-width: thin;
   scrollbar-color: #faf5fe transparent;

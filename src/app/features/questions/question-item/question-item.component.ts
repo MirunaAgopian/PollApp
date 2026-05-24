@@ -21,6 +21,7 @@ export class QuestionItem {
   private optionChannel: RealtimeChannel | null = null;
   @ViewChildren(OptionItem) optionItems!: QueryList<OptionItem>;
   totalVotes = signal(0);
+  
 
   async ngOnInit() {
     const initialOptions = await this.optionService.getOptionsForQuestion(this.question.id);

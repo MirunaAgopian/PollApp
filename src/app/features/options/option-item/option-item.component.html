@@ -1,5 +1,9 @@
-<section>
-  <ul>
-    <li>{{ option.order_index }} {{ option.text }}</li>
+<section class="option-item">
+  <ul class="option-item__list">
+    <li class="option-item__entry">
+      <span class="checkbox"></span>
+      <span class="option-item__index">{{ option.order_index }}</span>
+      <span class="option-item__text">{{ option.text }}</span>
+    </li>
   </ul>
 </section>

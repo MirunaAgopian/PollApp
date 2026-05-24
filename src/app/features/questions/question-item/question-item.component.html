@@ -1,14 +1,28 @@
-<article>
-  <p>{{ question.order_index }}. {{ question.text }}</p>
+<article class="question-item">
+  <h2 class="question-item__title">{{ question.order_index }}. {{ question.text }}</h2>
+
   @if (isMultipleAllowed()) {
-    <small>Multiple answers are possible.</small>
-  }
-  @for (o of options(); track o.id) {
-    <app-option-item [option]="o" [totalVotesFromQuestion]="totalVotes()"></app-option-item>
+    <small class="question-item__multiple-info"> Multiple answers are possible. </small>
   }
 
-  <section>
-    <app-vote-results [question]="question" [options]="options()" [totalVotes]="totalVotes()">
+  <div class="question-item__options">
+    @for (o of options(); track o.id) {
+      <app-option-item
+        class="question-item__option"
+        [option]="o"
+        [totalVotesFromQuestion]="totalVotes()"
+      >
+      </app-option-item>
+    }
+  </div>
+
+  <!--
+  <section class="question-item__results">
+    <app-vote-results
+      [question]="question"
+      [options]="options()"
+      [totalVotes]="totalVotes()">
     </app-vote-results>
   </section>
+  -->
 </article>

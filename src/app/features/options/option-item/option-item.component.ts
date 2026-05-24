@@ -11,10 +11,10 @@ import { RealtimeChannel } from '@supabase/supabase-js';
   templateUrl: './option-item.component.html',
   styleUrl: './option-item.component.scss',
 })
-
 export class OptionItem {
   @Input() option!: Option;
-  @Input() totalVotesFromQuestion! : number;
+  @Input() totalVotesFromQuestion!: number;
+  
   voteService = inject(VoteService);
   votes = signal<Vote[]>([]);
   private voteChannel: RealtimeChannel | null = null;
@@ -33,7 +33,7 @@ export class OptionItem {
         { event: 'INSERT', schema: 'public', table: 'votes', filter: `option_id=eq.${optionId}` },
         (payload) => {
           const newVote = payload.new as Vote;
-            this.votes.update((v) => [...v, newVote]);
+          this.votes.update((v) => [...v, newVote]);
         },
       )
       .subscribe();
@@ -46,7 +46,7 @@ export class OptionItem {
     }
   }
 
-  getVoteCount(){
+  getVoteCount() {
     return this.votes().length;
   }
 }

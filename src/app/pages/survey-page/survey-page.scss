@@ -1,7 +1,7 @@
 @import '../../../styles/abstracts/mixins';
 
 .survey-details-header {
-    margin-bottom: 80px;
+    margin-bottom: 40px;
   nav {
     @include flex-space-btw;
   }
@@ -9,4 +9,22 @@
   img {
     cursor: pointer;
   }
+}
+
+.survey-details-page {
+    @include flex-space-btw;
+    gap: 40px;
+}
+
+.survey-details__survey {
+    flex: 2;
+}
+
+.survey-details__votes {
+    flex: 1;
+}
+
+.survey-details__btn {
+  justify-self: flex-end;
+  margin-top: 40px;
 }
