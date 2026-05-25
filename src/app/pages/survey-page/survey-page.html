@@ -8,14 +8,23 @@
   <main class="survey-details-page">
     <!-- LEFT: SURVEY DETAILS -->
     <section class="survey-details__survey card-primary-sd">
-      <app-survey-detail></app-survey-detail>
-      <button class="survey-details__btn  btn btn--primary">Complete survey</button>
+      <app-survey-detail (questionIdChange)="onQuestionSelected($event)"></app-survey-detail>
+      <button class="survey-details__btn btn btn--primary">Complete survey</button>
     </section>
     <!-- RIGHT: DISPLAY VOTES -->
     <section class="survey-details__votes">
       <h2>Survey results <span>live</span></h2>
-      <p>Results will be shown here after participants complete the survey</p>
-      <p>There are no answers yet.</p>
+      <div class="survey-details__votes-container">
+        <!-- <div class="survey-details__placeholder">
+          <p>Results will be shown here after participants complete the survey.</p>
+          <p>There are no answers yet.</p>
+        </div> -->
+
+        <div class="survey-details__live-results">
+          <app-vote-results [questionId]="questionId" [options]="options" [votes]="votes">
+          </app-vote-results>
+        </div>
+      </div>
     </section>
   </main>
 </div>

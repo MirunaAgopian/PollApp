@@ -6,6 +6,16 @@ import { supabase } from './supabase.client';
   providedIn: 'root',
 })
 export class VoteService {
+  votes = signal<Vote[]>([]);
+
+  async getVotesForQuestion(questionId: string) {
+    const { data, error } = await supabase.from('votes').select('*').eq('question_id', questionId);
+
+    if (!error) {
+      this.votes.set(data ?? []);
+    }
+  }
+
   async getVotesForOption(optionId: string): Promise<Vote[]> {
     try {
       let { data: votes, error } = await supabase

@@ -1,7 +1,7 @@
 @import '../../../styles/abstracts/mixins';
 
 .survey-details-header {
-    margin-bottom: 40px;
+  margin-bottom: 40px;
   nav {
     @include flex-space-btw;
   }
@@ -12,19 +12,40 @@
 }
 
 .survey-details-page {
-    @include flex-space-btw;
-    gap: 40px;
+  @include flex-space-btw;
+  gap: 40px;
+  align-items: stretch;
 }
 
 .survey-details__survey {
-    flex: 2;
+  flex: 2;
 }
 
 .survey-details__votes {
-    flex: 1;
+  flex: 1;
+  @include flex-column-space-btw;
+  justify-content: flex-start;
+  margin-top: 80px;
+  gap: 20px;
+
+  h2 {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-text-large);
+    text-align: center;
+  }
+
+  span {
+    color: var(--color-orange-primary);
+    text-transform: uppercase;
+  }
 }
 
 .survey-details__btn {
   justify-self: flex-end;
-  margin-top: 40px;
+}
+
+.survey-details__placeholder,
+.survey-details__live-results {
+  font-family: var(--font-text-medium);
+  text-align: center;
 }

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Output, EventEmitter } from '@angular/core';
 import { SurveyService } from '../../../core/services/survey.service';
 import { ActivatedRoute } from '@angular/router';
 import { QuestionService } from '../../../core/services/question.service';
@@ -13,11 +13,10 @@ import { QuestionItem } from '../../questions/question-item/question-item.compon
 export class SurveyDetail {
   surveyService = inject(SurveyService);
   questionService = inject(QuestionService);
-
   surveyDetails = this.surveyService.singleSurvey;
   surveyQuestions = this.questionService.questions;
- 
   private route = inject(ActivatedRoute);
+  @Output() questionIdChange = new EventEmitter<string>();
 
   ngOnInit() {
     let currentId = String(this.route.snapshot.paramMap.get('id'));

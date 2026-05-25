@@ -1,13 +1,14 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Option } from '../interfaces/option.interface';
 import { supabase } from './supabase.client';
 
 @Injectable({
   providedIn: 'root',
 })
-
 export class OptionService {
-  async getOptionsForQuestion(questionId: string): Promise<Option[]> {
+  options = signal<Option[]>([]);
+
+  async getOptionsForQuestion(questionId: string): Promise<void> {
     try {
       const { data: options, error } = await supabase
         .from('options')
@@ -16,12 +17,13 @@ export class OptionService {
 
       if (error) {
         console.error('getOptionsForQuestion error:', error);
-        return [];
+        this.options.set([]);
+        return;
       }
-      return options ?? [];
+      this.options.set(options ?? []);
     } catch (err) {
       console.error('Unexpected error in getOptionsForQuestion:', err);
-      return [];
+      this.options.set([]);
     }
   }
 
