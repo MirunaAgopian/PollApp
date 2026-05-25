@@ -27,6 +27,7 @@
   justify-content: flex-start;
   margin-top: 80px;
   gap: 20px;
+  color: var(--color-purple-dark);
 
   h2 {
     font-family: var(--font-heading);
@@ -39,6 +40,14 @@
     text-transform: uppercase;
   }
 }
+
+.survey-details__votes-container {
+  @include flex-column-space-btw;
+  justify-content: flex-start;
+  height: 100%;
+  gap: 32px;
+}
+
 
 .survey-details__btn {
   justify-self: flex-end;

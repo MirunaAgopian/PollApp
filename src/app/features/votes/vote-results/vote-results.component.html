@@ -2,12 +2,15 @@
   @if (question) {
     <h2>{{ question.order_index }}. {{ question.text }}</h2>
   }
- 
+
   @for (o of options; track o.id) {
-    <p>{{ o.order_index }}</p>
-    <div>
-      <div class="vote-results_bar" [style.width.%]="computeVotesToPercentages(o.id)"></div>
-      <span class="vote-restults_percentage">{{
+    <div class="vote-results__visual">
+      <p>{{ o.order_index }}</p>
+      <div class="vote-bar">
+        <div class="vote-bar__track"></div>
+        <div class="vote-bar__fill" [style.width.%]="computeVotesToPercentages(o.id)"></div>
+      </div>
+      <span class="vote-restults__percentage">{{
         computeVotesToPercentages(o.id) | percentage: 0
       }}</span>
     </div>
