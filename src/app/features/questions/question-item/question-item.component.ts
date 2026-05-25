@@ -19,10 +19,10 @@ export class QuestionItem {
   private optionChannel: RealtimeChannel | null = null;
 
   async ngOnInit() {
-    // const initialOptions = await this.optionService.getOptionsForQuestion(this.question.id);
-    // this.options.set(initialOptions);
-    await this.optionService.getOptionsForQuestion(this.question.id);
-    this.options.set(this.optionService.options());
+    const initialOptions = await this.optionService.getOptionsForQuestion(this.question.id);
+    this.options.set(initialOptions);
+    // await this.optionService.getOptionsForQuestion(this.question.id);
+    // this.options.set(this.optionService.options());
 
     this.listenForOptionInserts();
   }

@@ -8,22 +8,31 @@
   <main class="survey-details-page">
     <!-- LEFT: SURVEY DETAILS -->
     <section class="survey-details__survey card-primary-sd">
-      <app-survey-detail (questionIdChange)="onQuestionSelected($event)"></app-survey-detail>
+      <app-survey-detail></app-survey-detail>
       <button class="survey-details__btn btn btn--primary">Complete survey</button>
     </section>
     <!-- RIGHT: DISPLAY VOTES -->
     <section class="survey-details__votes">
       <h2>Survey results <span>live</span></h2>
       <div class="survey-details__votes-container">
-        <!-- <div class="survey-details__placeholder">
-          <p>Results will be shown here after participants complete the survey.</p>
-          <p>There are no answers yet.</p>
-        </div> -->
-
-        <div class="survey-details__live-results">
-          <app-vote-results [questionId]="questionId" [options]="options" [votes]="votes">
-          </app-vote-results>
-        </div>
+        @if (!hasVotes()) {
+          <div class="survey-details__placeholder">
+            <p>Results will be shown here after participants complete the survey.</p>
+            <p>There are no answers yet.</p>
+          </div>
+        }
+        @if (hasVotes()) {
+          @for (q of questions(); track q.id) {
+            <div class="survey-details__live-results">
+              <app-vote-results
+                [question]="q"
+                [options]="optionsForQuestion(q.id)"
+                [votes]="votesForQuestion(q.id)"
+              >
+              </app-vote-results>
+            </div>
+          }
+        }
       </div>
     </section>
   </main>

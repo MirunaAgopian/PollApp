@@ -4,6 +4,7 @@ import { Question } from '../../../core/interfaces/question.interface';
 import { Option } from '../../../core/interfaces/option.interface';
 import { Vote } from '../../../core/interfaces/vote.interface';
 
+
 @Component({
   selector: 'app-vote-results',
   imports: [PercentagePipe],
@@ -14,8 +15,8 @@ import { Vote } from '../../../core/interfaces/vote.interface';
 export class VoteResults {
   @Input() options!: Option[];
   @Input() votes!: Vote[];
-  @Input() question!: Question;
-  @Input() questionId!: string;
+  @Input() question: Question | null = null;
+  // @Input() questionId!: string;
 
   getTotalVotes() {
     let totalVotes = this.votes.length;

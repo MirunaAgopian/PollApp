@@ -8,24 +8,48 @@ import { supabase } from './supabase.client';
 export class OptionService {
   options = signal<Option[]>([]);
 
-  async getOptionsForQuestion(questionId: string): Promise<void> {
+  async getOptionsForQuestion(questionId: string): Promise<Option[]> {
     try {
-      const { data: options, error } = await supabase
+      const { data, error } = await supabase
         .from('options')
         .select('*')
-        .eq('question_id', questionId);
+        .eq('question_id', questionId)
+        .order('order_index', { ascending: true });
 
       if (error) {
         console.error('getOptionsForQuestion error:', error);
+        return [];
+      }
+
+      return data ?? [];
+    } catch (err) {
+      console.error('Unexpected error in getOptionsForQuestion:', err);
+      return [];
+    }
+  }
+
+  // ADDED now for the survey-page
+  async getOptionsForSurvey(surveyId: string): Promise<void> {
+    try {
+      const { data, error } = await supabase
+        .from('options')
+        .select('*, questions!inner(survey_id)')
+        .eq('questions.survey_id', surveyId)
+        .order('order_index', { ascending: true });
+
+      if (error) {
+        console.error('getOptionsForSurvey error:', error);
         this.options.set([]);
         return;
       }
-      this.options.set(options ?? []);
+
+      this.options.set((data as Option[]) ?? []);
     } catch (err) {
-      console.error('Unexpected error in getOptionsForQuestion:', err);
+      console.error('Unexpected error in getOptionsForSurvey:', err);
       this.options.set([]);
     }
   }
+  //end
 
   async insertOptions() {
     try {

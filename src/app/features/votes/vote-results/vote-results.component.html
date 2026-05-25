@@ -1,6 +1,8 @@
-<!-- <section class="vote-results">
-  <h2>{{ question.order_index }}. {{ question.text }}</h2>
-
+<section class="vote-results">
+  @if (question) {
+    <h2>{{ question.order_index }}. {{ question.text }}</h2>
+  }
+ 
   @for (o of options; track o.id) {
     <p>{{ o.order_index }}</p>
     <div>
@@ -10,24 +12,4 @@
       }}</span>
     </div>
   }
-</section> -->
-
-<section class="vote-results">
-
-  <div *ngFor="let o of options; trackBy: trackById">
-    <p>{{ o.order_index }}</p>
-
-    <div class="vote-results__row">
-      <div
-        class="vote-results_bar"
-        [style.width.%]="computeVotesToPercentages(o.id)"
-      ></div>
-
-      <span class="vote-results_percentage">
-        {{ computeVotesToPercentages(o.id) | percentage: 0 }}
-      </span>
-    </div>
-  </div>
-
 </section>
-
