@@ -4,7 +4,7 @@
     (click)="toggleDropdown()"
     [class.open]="isCategoriesOpen"
   >
-    <span class="dropdown__label">{{ label }}</span>
+    <span class="dropdown__label">{{ label() }}</span>
 
     <svg class="icon" width="15" height="8" viewBox="0 0 15 8">
       <path
@@ -12,9 +12,9 @@
       />
     </svg>
   </button>
-  <span class="dropdown__selected-category">{{ value }}</span>
+  <span class="dropdown__selected-category">{{ value() }}</span>
   <ul class="dropdown" [class.dropdown--open]="isCategoriesOpen">
-    @for (o of options; track o) {
+    @for (o of options(); track o) {
       <li class="dropdown__item" (click)="select(o)">
         {{ o }}
       </li>

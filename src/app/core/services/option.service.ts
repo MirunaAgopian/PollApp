@@ -28,7 +28,7 @@ export class OptionService {
     }
   }
 
-  // ADDED now for the survey-page
+  // for the survey detail-page
   async getOptionsForSurvey(surveyId: string): Promise<void> {
     try {
       const { data, error } = await supabase
@@ -49,7 +49,6 @@ export class OptionService {
       this.options.set([]);
     }
   }
-  //end
 
   async insertOptions() {
     try {

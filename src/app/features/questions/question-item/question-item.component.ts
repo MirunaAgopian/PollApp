@@ -1,4 +1,4 @@
-import { Component, Input, QueryList, ViewChildren, inject, signal } from '@angular/core';
+import { Component, inject, signal, input } from '@angular/core';
 import { Question } from '../../../core/interfaces/question.interface';
 import { OptionService } from '../../../core/services/option.service';
 import { OptionItem } from '../../options/option-item/option-item.component';
@@ -13,30 +13,27 @@ import { RealtimeChannel } from '@supabase/supabase-js';
   styleUrl: './question-item.component.scss',
 })
 export class QuestionItem {
-  @Input() question!: Question;
+  question = input.required<Question>();
   optionService = inject(OptionService);
   options = signal<Option[]>([]);
   private optionChannel: RealtimeChannel | null = null;
 
   async ngOnInit() {
-    const initialOptions = await this.optionService.getOptionsForQuestion(this.question.id);
+    const initialOptions = await this.optionService.getOptionsForQuestion(this.question().id);
     this.options.set(initialOptions);
-    // await this.optionService.getOptionsForQuestion(this.question.id);
-    // this.options.set(this.optionService.options());
-
     this.listenForOptionInserts();
   }
 
   listenForOptionInserts() {
     this.optionChannel = supabase
-      .channel(`options-insert-${this.question.id}`)
+      .channel(`options-insert-${this.question().id}`)
       .on(
         'postgres_changes',
         {
           event: 'INSERT',
           schema: 'public',
           table: 'options',
-          filter: `question_id=eq.${this.question.id}`,
+          filter: `question_id=eq.${this.question().id}`,
         },
         (payload) => {
           const newOption = payload.new as Option;
@@ -54,6 +51,6 @@ export class QuestionItem {
   }
 
   isMultipleAllowed(): boolean {
-    return this.question.allow_multiple === true;
+    return this.question().allow_multiple === true;
   }
 }

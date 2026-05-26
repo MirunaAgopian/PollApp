@@ -1,12 +1,4 @@
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  ViewChild,
-  ElementRef,
-  HostListener,
-} from '@angular/core';
+import { Component, ElementRef, HostListener, input, output, viewChild } from '@angular/core';
 
 @Component({
   selector: 'app-dropdown',
@@ -15,11 +7,11 @@ import {
   styleUrl: './dropdown.scss',
 })
 export class Dropdown {
-  @Input() label: string = '';
-  @Input() options: string[] = [];
-  @Input() value: string | null = null;
-  @Output() valueChange = new EventEmitter<string>();
-  @ViewChild('dropdownRef') dropdownRef!: ElementRef;
+  label = input<string>('');
+  options = input<string[]>([]);
+  value = input<string | null>(null);
+  valueChange = output<string>();
+  dropdownRef = viewChild<ElementRef>('dropdownRef');
 
   isCategoriesOpen = false;
 
@@ -30,14 +22,13 @@ export class Dropdown {
   @HostListener('document:click', ['$event'])
   handleOutsideClick(event: Event) {
     const target = event.target as HTMLElement;
-    const clickedInside = this.dropdownRef.nativeElement.contains(target);
+    const clickedInside = this.dropdownRef()?.nativeElement.contains(target);
     if (!clickedInside) {
       this.isCategoriesOpen = false;
     }
   }
 
   select(option: string) {
-    this.value = option;
     this.valueChange.emit(option);
     this.isCategoriesOpen = false;
   }

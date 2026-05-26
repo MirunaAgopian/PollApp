@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { SurveyList } from '../../features/surveys/survey-list/survey-list.component';
+import { SurveyListComponent } from '../../features/surveys/survey-list/survey-list.component';
 import { Dropdown } from '../../shared/components/dropdown/dropdown';
 import { SURVEY_CATEGORIES } from '../../shared/constants/survey-categories';
 
 @Component({
   selector: 'app-landing-page',
-  imports: [SurveyList, Dropdown],
+  imports: [SurveyListComponent, Dropdown],
   templateUrl: './landing-page.html',
   styleUrl: './landing-page.scss',
 })

@@ -33,7 +33,7 @@ export class VoteService {
     }
   }
 
-  // Added now — USED BY SurveyPage (right side)
+  // USED BY SurveyPage (right side)
   async getVotesForSurvey(surveyId: string) {
     try {
       const { data, error } = await supabase

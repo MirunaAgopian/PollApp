@@ -6,15 +6,15 @@
 >
   @for (item of getfilteredSurveys(); track item.id) {
     <article
-      [class.card-primary]="!secondaryStyle"
-      [class.card-secondary]="secondaryStyle"
+      [class.card-primary]="!secondaryStyle()"
+      [class.card-secondary]="secondaryStyle()"
       [routerLink]="['survey', item.id]"
     >
       <p class="card-primary__category">{{ item.category }}</p>
       <h3 class="card-primary__title">{{ item.title }}</h3>
       <span
-        [class.card-primary__badge]="!secondaryStyle"
-        [class.card-secondary__badge]="secondaryStyle"
+        [class.card-primary__badge]="!secondaryStyle()"
+        [class.card-secondary__badge]="secondaryStyle()"
       >
         {{ calculateRemainingDays(item.end_date) }}
       </span>
