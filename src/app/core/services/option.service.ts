@@ -50,23 +50,22 @@ export class OptionService {
     }
   }
 
-  async insertOptions() {
+  async insertOptions(option: any, questionId: number) {
     try {
       const { data, error } = await supabase
         .from('options')
         .insert(
-          //TEST
           {
-            question_id: 1,
-            text: 'Tis is a test answer from VS-Code',
-            order_index: 'C',
+            question_id: questionId,
+            text: option.text,
+            order_index: option.order_index,
           },
-          //TEST
         )
         .select();
       if (error) {
         console.error('Supabase error at insertOptions:', error);
       }
+      return data?.[0];
     } catch (err) {
       console.error('Unexpected JS runtime error at insertOptions', err);
     }

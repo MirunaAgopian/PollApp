@@ -39,24 +39,23 @@ export class SurveyService {
     }
   }
 
-  async insertSurvey() {
+  async insertSurvey(survey: any) {
     try {
       const { data, error } = await supabase
         .from('surveys')
         .insert({
-          //later I should change these values with the values from formControl!
-          title: 'Test2',
-          description: 'this has been inserted via VS-Code',
-          category: 'Test data',
-          end_date: '2026-06-01',
-          is_published: true,
-          //this block should be changed!
+         title: survey.title,
+         description: survey.description,
+         category: survey.category,
+         end_date: survey.end_date,
+         is_published: survey.is_published,
         })
         .select();
       if (error) {
         console.error('Supabase error at insertSurvey:', error);
         return;
       }
+      return data?.[0];
     } catch (err) {
       console.error('Unexpected JS runtime error at insertSurvey:', err);
     }

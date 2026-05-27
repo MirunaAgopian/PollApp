@@ -6,7 +6,6 @@ import { RealtimeChannel } from '@supabase/supabase-js';
 @Injectable({
   providedIn: 'root',
 })
-
 export class QuestionService {
   questions = signal<Question[]>([]);
   questionChannel: RealtimeChannel | null = null;
@@ -24,25 +23,21 @@ export class QuestionService {
     }
   }
 
-
-  async insertQuestion() {
+  async insertQuestion(question: any, surveyId: number) {
     try {
       const { data, error } = await supabase
         .from('questions')
-        .insert(
-          //TEST - values to be updated!
-          {
-            survey_id: 1, //this value should be rplaced dynamically
-            text: 'Ist this a test question from VS code?',
-            allow_multiple: true,
-            order_index: 2,
-          },
-          //TEST
-        )
+        .insert({
+          survey_id: surveyId,
+          order_index: question.order_index,
+          text: question.text,
+          allow_multiple: question.allow_multiple,
+        })
         .select();
       if (error) {
         console.error('Supabase error at insertQuestion:', error);
       }
+      return data?.[0];
     } catch (err) {
       console.error('Unexpected JS runtime error insertQuestion:', err);
     }
@@ -62,8 +57,8 @@ export class QuestionService {
       .subscribe();
   }
 
-  stopListeningForQuestionInserts(){
-    if(this.questionChannel){
+  stopListeningForQuestionInserts() {
+    if (this.questionChannel) {
       this.questionChannel.unsubscribe();
       this.questionChannel = null;
     }
