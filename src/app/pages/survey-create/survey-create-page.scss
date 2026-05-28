@@ -33,6 +33,7 @@
   @include flex-column-space-btw;
   justify-content: unset;
   gap: 40px;
+  font-family: var(--font-text-bold);
 
   label {
     margin-bottom: 8px;
@@ -66,3 +67,14 @@
 .create-survey__row {
   @include flex-space-btw;
 }
+
+.create-survey__right {
+  app-delete-btn {
+    align-self: flex-start;
+  }
+}
+
+// .create-survey__field-header {
+//   @include flex-space-btw;
+//here I need to set 2 columns for the future question!!
+// }
