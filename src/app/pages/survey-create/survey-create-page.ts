@@ -4,18 +4,23 @@ import { SurveyService } from '../../core/services/survey.service';
 import { QuestionService } from '../../core/services/question.service';
 import { OptionService } from '../../core/services/option.service';
 import { Router } from '@angular/router';
+import { Dropdown } from '../../shared/components/dropdown/dropdown';
+import { SURVEY_CATEGORIES } from '../../shared/constants/survey-categories';
+import { DeleteBtn } from '../../shared/components/delete-btn/delete-btn';
 
 @Component({
   selector: 'app-survey-create-page',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, Dropdown, DeleteBtn],
   templateUrl: './survey-create-page.html',
   styleUrl: './survey-create-page.scss',
 })
 export class SurveyCreatePage {
   surveyService = inject(SurveyService);
-  quesionService = inject(QuestionService);
+  questionService = inject(QuestionService);
   optionService = inject(OptionService);
   router = inject(Router);
+  categories = SURVEY_CATEGORIES;
+  selectedCategory: string | null = null;
 
   surveyForm = new FormGroup({
     title: new FormControl('', {
@@ -30,73 +35,62 @@ export class SurveyCreatePage {
     questions: new FormArray([]),
   });
 
-  surveyQuestionsForm = new FormGroup({
-    order_index: new FormControl(1, {
-      validators: [Validators.required],
-    }),
-    text: new FormControl('', {
-      validators: [Validators.required],
-    }),
-    allow_multiple: new FormControl(false, {
-      validators: [Validators.required],
-    }),
-    options: new FormArray([]),
-  });
+  ngOnInit() {
+    this.addQuestion();
+  }
 
-  surveyOptionsForm = new FormGroup({
-    text: new FormControl('', {
-      validators: [Validators.required],
-    }),
-    order_index: new FormControl('A', {
-      validators: [Validators.required],
-    }),
-  });
+  get questionsArr() {
+    return this.surveyForm.get('questions') as FormArray;
+  }
 
   addQuestion() {
-    let questionsArr = this.surveyForm.get('questions') as FormArray;
-    let question = new FormGroup({
-      order_index: new FormControl(questionsArr.length + 1),
-      text: new FormControl(),
-      allow_multiple: new FormControl(),
+    const question = new FormGroup({
+      order_index: new FormControl(this.questionsArr.length + 1),
+      text: new FormControl('', Validators.required),
+      allow_multiple: new FormControl(false),
       options: new FormArray([]),
     });
-    questionsArr.push(question);
+    this.questionsArr.push(question);
+    this.addOption(this.questionsArr.length - 1);
   }
 
   removeQuestion(index: number) {
-    let questionsArr = this.surveyForm.get('questions') as FormArray;
-    if (questionsArr.length <= 1) return;
-    questionsArr.removeAt(index);
-    questionsArr.controls.forEach((q, i) => {
+    if (this.questionsArr.length <= 1) return;
+    this.questionsArr.removeAt(index);
+    this.questionsArr.controls.forEach((q, i) => {
       q.get('order_index')?.setValue(i + 1);
     });
   }
 
-  addOption() {
-    let optionsArr = this.surveyQuestionsForm.get('options') as FormArray;
+  getOptionsArr(questionIndex: number) {
+    return this.questionsArr.at(questionIndex).get('options') as FormArray;
+  }
+
+  addOption(questionIndex: number) {
+    const optionsArr = this.getOptionsArr(questionIndex);
     if (optionsArr.length >= 6) return;
-    let alphabet = ['A', 'B', 'C', 'D', 'E', 'F'];
-    let option = new FormGroup({
-      text: new FormControl(),
+    const alphabet = ['A', 'B', 'C', 'D', 'E', 'F'];
+    const option = new FormGroup({
+      text: new FormControl('', Validators.required),
       order_index: new FormControl(alphabet[optionsArr.length]),
     });
     optionsArr.push(option);
   }
 
-  removeOption(index: number) {
-    let optionsArr = this.surveyQuestionsForm.get('options') as FormArray;
-    let alphabet = ['A', 'B', 'C', 'D', 'E', 'F'];
-    optionsArr.removeAt(index);
+  removeOption(questionIndex: number, optionIndex: number) {
+    const optionsArr = this.getOptionsArr(questionIndex);
+    const alphabet = ['A', 'B', 'C', 'D', 'E', 'F'];
+    optionsArr.removeAt(optionIndex);
     optionsArr.controls.forEach((o, i) => {
       o.get('order_index')?.setValue(alphabet[i]);
     });
   }
 
   async submitSurvey() {
+    if (this.surveyForm.invalid) return;
     const survey = await this.surveyService.insertSurvey(this.surveyForm.value);
     for (let q of this.surveyForm.value.questions! as any[]) {
-      const question = await this.quesionService.insertQuestion(q, survey.id);
-
+      const question = await this.questionService.insertQuestion(q, survey.id);
       for (let o of q.options! as any[]) {
         await this.optionService.insertOptions(o, question.id);
       }
@@ -104,7 +98,7 @@ export class SurveyCreatePage {
     this.redirectToSurveyDetails(survey.id);
   }
 
-  redirectToSurveyDetails(id:number) {
+  redirectToSurveyDetails(id: number) {
     this.router.navigate(['/survey', id]);
   }
 }

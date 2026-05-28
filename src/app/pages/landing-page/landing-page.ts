@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { SurveyListComponent } from '../../features/surveys/survey-list/survey-list.component';
 import { Dropdown } from '../../shared/components/dropdown/dropdown';
 import { SURVEY_CATEGORIES } from '../../shared/constants/survey-categories';
+import { SurveyCreatePage } from '../survey-create/survey-create-page';
 
 @Component({
   selector: 'app-landing-page',
-  imports: [SurveyListComponent, Dropdown],
+  imports: [SurveyListComponent, Dropdown, SurveyCreatePage],
   templateUrl: './landing-page.html',
   styleUrl: './landing-page.scss',
 })
@@ -13,6 +14,7 @@ export class LandingPage {
   activeFilter: 'active' | 'past' = 'active';
   categories = SURVEY_CATEGORIES;
   selectedCategory: string | null = null;
+  @ViewChild('createSurveyModal') modal!: ElementRef<HTMLDialogElement>;
 
   ngOnInit() {
     document.body.setAttribute('data-page', 'landing');
@@ -20,5 +22,13 @@ export class LandingPage {
 
   ngOnDestroy() {
     document.body.removeAttribute('data-page');
+  }
+
+  openCreateSurveyModal(){
+    this.modal.nativeElement.showModal();
+  }
+
+  closeCreateSurveyModal(){
+    this.modal.nativeElement.close();
   }
 }

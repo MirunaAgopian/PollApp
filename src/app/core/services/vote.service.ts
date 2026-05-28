@@ -74,4 +74,7 @@ export class VoteService {
       console.error('Unexpected JS runtime error at insertVotes', err);
     }
   }
+
+  //listenForVoteInserts(){}
+  //stopListeningForVoteInterts(){} -> to be called on survey-detail-page
 }

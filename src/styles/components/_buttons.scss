@@ -115,3 +115,23 @@
     transform: rotate(180deg);
   }
 }
+
+// Quaternary button
+.btn-quaternary {
+  font-family: var(--font-button);
+  font-size: var(--font-size-button);
+  color: white;
+  @include flex-center;
+  gap: 8px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  padding: 10px 16px;
+  cursor: pointer;
+  background-color: var(--color-orange-quaternary);
+  color: white;
+
+  &:hover {
+    background-color: var(--color-orange-quaternary-hover);
+  }
+}
