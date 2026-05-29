@@ -12,18 +12,13 @@
           Create and share surveys in minutes - from team events to workplace culture. Collect
           opinions, engage your audience, and turn feedback into action.
         </p>
-        <button
-          class="btn btn--primary btn--icon-plus landing-page__cta"
-          (click)="openCreateSurveyModal()"
-        >
+        <button class="btn btn--primary btn--icon-plus" (click)="openCreateSurveyModal()">
           New survey
         </button>
-
-        <dialog #createSurveyModal class="modal">
-          <app-survey-create-page (close)="closeCreateSurveyModal()"></app-survey-create-page>
-        </dialog>
+        <app-dialog [(open)]="isCreateSurveyOpen">
+          <app-survey-create-page (close)="isCreateSurveyOpen = false"></app-survey-create-page>
+        </app-dialog>
       </div>
-
       <div class="landing-page__hero-right">
         <div class="landing-page__visual">
           <img

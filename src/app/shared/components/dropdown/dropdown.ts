@@ -19,6 +19,11 @@ export class Dropdown {
     this.isCategoriesOpen = !this.isCategoriesOpen;
   }
 
+  onTriggerClick(event: MouseEvent) {
+    event.stopPropagation();
+    this.toggleDropdown();
+  }
+
   @HostListener('document:click', ['$event'])
   handleOutsideClick(event: Event) {
     const target = event.target as HTMLElement;
@@ -27,6 +32,7 @@ export class Dropdown {
       this.isCategoriesOpen = false;
     }
   }
+
 
   select(option: string) {
     this.valueChange.emit(option);

@@ -1,5 +1,6 @@
 @import '../../../styles/abstracts/mixins';
 
+// UPPER CONTAINER STYLING
 .create-survey__badge {
   width: 80px;
   color: var(--color-purple-dark);
@@ -22,14 +23,12 @@
   color: var(--color-bg-card-dropdown);
   padding: 20px 40px;
   border-radius: 0 70px 0 0;
-  height: 80vh;
 }
 
 .create-survey__body {
   background-color: var(--color-purple-light);
   border-radius: 0 70px 0 0;
   padding: 20px 40px;
-  height: 50vh;
   @include flex-column-space-btw;
   justify-content: unset;
   gap: 40px;
@@ -74,7 +73,114 @@
   }
 }
 
-// .create-survey__field-header {
-//   @include flex-space-btw;
-//here I need to set 2 columns for the future question!!
-// }
+
+// LOWER CONTAINER STYLING
+.create-survey__questions {
+  @include grid-two-columns;
+}
+
+.create-survey__field {
+  margin-bottom: 16px;
+}
+
+.create-survey__field-header {
+  @include flex-space-btw;
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 16px;
+}
+
+.create-survey__allow-multiple {
+  @include flex-space-btw;
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 8px;
+}
+
+.create-survey__checkbox {
+  @include flex-space-btw;
+  gap: 8px;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: var(--font-text);
+  color: white;
+
+  input {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 2px solid white;
+    border-radius: 4px;
+    background: transparent;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--color-orange-quaternary-hover);
+    }
+
+    &:checked {
+      background-color: var(--color-orange-primary);
+      background-image: url('/assets/images/icons/checkmark.svg');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 8px;
+    }
+  }
+}
+
+.create-survey__option {
+  @include flex-space-btw;
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 4px;
+}
+
+.create-survey__add-answer {
+  @include flex-space-btw;
+  width: 100%;
+  max-width: 310px;
+  margin: 8px 0;
+  span {
+    font-size: 12px;
+  }
+}
+
+.create-survey__add-btn {
+  background: none;
+  border: none;
+  border-bottom: 1px solid white;
+  color: white;
+  padding: 6px;
+  cursor: pointer;
+  @include flex-space-btw;
+  gap: 4px;
+
+  font-family: var(--font-text-bold);
+  font-size: 14px;
+
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+
+  &:hover {
+    background-color: #5c5061;
+  }
+}
+
+.create-survey__add-question-btn {
+  grid-column: 2;
+  justify-self: start;
+  align-self: start;
+  width: fit-content;
+  height: auto;
+}
+
+.create-survey__publish-btn {
+  background-color: var(--color-orange-secondary);
+  margin-top: 16px;
+  justify-self: flex-end;
+
+  &:hover {
+    background-color: var(--color-orange-primary);
+  }
+}

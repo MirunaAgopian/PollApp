@@ -40,6 +40,25 @@
     width: 20px;
   }
 }
+// Check icon on hover
+.btn--icon-check {
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    width: 0;
+    height: 18px;
+    margin-left: 0.5rem;
+    background: url('/assets/images/icons/checkmark.svg') no-repeat center;
+    background-size: contain;
+    transition: width 0.2s ease;
+  }
+
+  &:hover::after {
+    width: 18px;
+  }
+}
 
 /* Check icon on hover */
 .btn--icon-check {

@@ -4,7 +4,7 @@
 }
 
 .dropdown__trigger {
-  width: 300px;
+  width: 250px;
 
   &.open .dropdown__icon {
     transform: rotate(180deg);
@@ -31,7 +31,7 @@
   position: absolute;
   top: 100%;
   left: 0;
-  width: 300px;
+  width: 250px;
   margin-top: 2px;
   transform-origin: top;
   transform: scaleY(0);

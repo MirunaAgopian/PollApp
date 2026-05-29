@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, output } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SurveyService } from '../../core/services/survey.service';
 import { QuestionService } from '../../core/services/question.service';
@@ -21,6 +21,7 @@ export class SurveyCreatePage {
   router = inject(Router);
   categories = SURVEY_CATEGORIES;
   selectedCategory: string | null = null;
+  close = output<void>();
 
   surveyForm = new FormGroup({
     title: new FormControl('', {
@@ -100,5 +101,9 @@ export class SurveyCreatePage {
 
   redirectToSurveyDetails(id: number) {
     this.router.navigate(['/survey', id]);
+  }
+
+  closeCreateSurveyModal() {
+    this.close.emit();
   }
 }
