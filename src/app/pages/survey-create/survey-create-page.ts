@@ -22,6 +22,8 @@ export class SurveyCreatePage {
   categories = SURVEY_CATEGORIES;
   selectedCategory: string | null = null;
   close = output<void>();
+  isVisible: boolean = false;
+  today = new Date().toISOString().split('T')[0];
 
   surveyForm = new FormGroup({
     title: new FormControl('', {
@@ -105,5 +107,14 @@ export class SurveyCreatePage {
 
   closeCreateSurveyModal() {
     this.close.emit();
+  }
+
+  showErrorMsg(event: Event) {
+    let eventVar = event.target as HTMLInputElement;
+    if (eventVar.value === '') {
+      this.isVisible = true;
+    } else {
+      this.isVisible = false;
+    }
   }
 }

@@ -1,6 +1,22 @@
 @import '../../../styles/abstracts/mixins';
 
 // UPPER CONTAINER STYLING
+.error_msg {
+  color: red;
+  font-size: var(--font-size-text-small);
+  margin-top: 8px;
+  width: 200px;
+  visibility: hidden;
+}
+
+.error_msg--visible {
+  visibility: visible;
+}
+
+.d-none {
+  display: none;
+}
+
 .create-survey__badge {
   width: 80px;
   color: var(--color-purple-dark);
@@ -68,6 +84,7 @@
 }
 
 .create-survey__right {
+  align-self: flex-start;
   app-delete-btn {
     align-self: flex-start;
   }
