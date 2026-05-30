@@ -1,24 +1,24 @@
 @import '../../../../styles/abstracts/mixins';
 
 .option-item {
-    &__list {
-        @include reset-li;
-    }
+  &__list {
+    @include reset-li;
+  }
 
-    &__entry {
-        cursor: pointer;
-        margin: 16px 0;
-        padding: 4px 8px;
-        @include flex-space-btw;
-        justify-content: flex-start;
+  &__entry {
+    cursor: pointer;
+    margin: 16px 0;
+    padding: 4px 8px;
+    @include flex-space-btw;
+    justify-content: flex-start;
 
-        &:hover {
-            background-color: var(--color-orange-tertiary);
-        }
+    &:hover {
+      background-color: var(--color-orange-tertiary);
     }
+  }
 
-    &__index {
-        margin: 0 8px;
-        font-weight: 800;
-    }
+  &__index {
+    margin: 0 8px;
+    font-weight: 800;
+  }
 }

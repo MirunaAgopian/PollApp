@@ -1,0 +1,48 @@
+@import '../../../../styles/abstracts/mixins' ;
+
+.error_msg {
+  color: red;
+  font-size: var(--font-size-text-small);
+  margin-top: 8px;
+  width: 200px;
+  visibility: hidden;
+}
+
+.error_msg--visible {
+  visibility: visible;
+}
+
+.create-survey__upper {
+  @include flex-space-btw;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 24px;
+  }
+}
+
+.create-survey__left {
+  @include flex-column-space-btw;
+  gap: 20px;
+}
+
+.create-survey__field {
+  @include flex-column-space-btw;
+}
+
+.create-survey__input-row {
+  @include flex-space-btw;
+  justify-content: unset;
+  gap: 8px;
+}
+
+.create-survey__row {
+  @include flex-space-btw;
+}
+
+.create-survey__right {
+  align-self: flex-start;
+  app-delete-btn {
+    align-self: flex-start;
+  }
+}

@@ -1,1 +1,24 @@
-<p>create-question works!</p>
+<section class="create-survey__field">
+  <div class="create-survey__field-header">
+    <label class="create-survey__label">1. Question</label>
+    <app-delete-btn></app-delete-btn>
+  </div>
+  <input
+    type="text"
+    class="survey__input--standard-width survey__input--card"
+    (blur)="showErrorMsg($event)"
+    (input)="showErrorMsg($event)"
+  />
+  <p class="error_msg" [class.error_msg--visible]="isVisible">This field is mandatory!</p>
+</section>
+<section class="create-survey__answers">
+  <div class="create-survey__allow-multiple">
+    <label class="create-survey__label">Answers</label>
+
+    <label class="create-survey__checkbox">
+      <input type="checkbox" />
+      Allow multiple answers.
+    </label>
+  </div>
+</section>
+

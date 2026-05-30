@@ -4,13 +4,13 @@ import { SurveyService } from '../../core/services/survey.service';
 import { QuestionService } from '../../core/services/question.service';
 import { OptionService } from '../../core/services/option.service';
 import { Router } from '@angular/router';
-import { Dropdown } from '../../shared/components/dropdown/dropdown';
-import { SURVEY_CATEGORIES } from '../../shared/constants/survey-categories';
-import { DeleteBtn } from '../../shared/components/delete-btn/delete-btn';
+import { CreateSurvey } from '../../features/surveys/create-survey/create-survey.component';
+import { CreateQuestion } from '../../features/questions/create-question/create-question.component';
+import { CreateOption } from '../../features/options/create-option/create-option.component';
 
 @Component({
   selector: 'app-survey-create-page',
-  imports: [ReactiveFormsModule, Dropdown, DeleteBtn],
+  imports: [ReactiveFormsModule, CreateSurvey, CreateQuestion, CreateOption],
   templateUrl: './survey-create-page.html',
   styleUrl: './survey-create-page.scss',
 })
@@ -19,11 +19,8 @@ export class SurveyCreatePage {
   questionService = inject(QuestionService);
   optionService = inject(OptionService);
   router = inject(Router);
-  categories = SURVEY_CATEGORIES;
-  selectedCategory: string | null = null;
   close = output<void>();
-  isVisible: boolean = false;
-  today = new Date().toISOString().split('T')[0];
+
 
   surveyForm = new FormGroup({
     title: new FormControl('', {
@@ -107,14 +104,5 @@ export class SurveyCreatePage {
 
   closeCreateSurveyModal() {
     this.close.emit();
-  }
-
-  showErrorMsg(event: Event) {
-    let eventVar = event.target as HTMLInputElement;
-    if (eventVar.value === '') {
-      this.isVisible = true;
-    } else {
-      this.isVisible = false;
-    }
   }
 }
