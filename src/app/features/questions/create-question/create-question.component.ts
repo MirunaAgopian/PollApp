@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { DeleteBtn } from '../../../shared/components/delete-btn/delete-btn';
 
 @Component({
@@ -9,6 +9,8 @@ import { DeleteBtn } from '../../../shared/components/delete-btn/delete-btn';
 })
 export class CreateQuestion {
   isVisible: boolean = false;
+
+
   showErrorMsg(event: Event) {
     let eventVar = event.target as HTMLInputElement;
     if (eventVar.value === '') {

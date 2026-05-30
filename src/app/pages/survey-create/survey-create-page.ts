@@ -21,7 +21,6 @@ export class SurveyCreatePage {
   router = inject(Router);
   close = output<void>();
 
-
   surveyForm = new FormGroup({
     title: new FormControl('', {
       validators: [Validators.required, Validators.minLength(5)],
@@ -104,5 +103,31 @@ export class SurveyCreatePage {
 
   closeCreateSurveyModal() {
     this.close.emit();
+  }
+
+  //delete functions
+
+  get titleControl(): FormControl {
+    return this.surveyForm.get('title') as FormControl;
+  }
+
+  get datumControl(): FormControl {
+    return this.surveyForm.get('end_date') as FormControl;
+  }
+
+   get descriptionControl(): FormControl {
+    return this.surveyForm.get('description') as FormControl;
+  }
+
+  onClearSurveyDatum() {
+    this.surveyForm.get('end_date')!.setValue('');
+  }
+
+  onClearSurveyName() {
+    this.surveyForm.get('title')!.setValue('');
+  }
+
+  onClearSurveyDescription(){
+    this.surveyForm.get('description')!.setValue('');
   }
 }

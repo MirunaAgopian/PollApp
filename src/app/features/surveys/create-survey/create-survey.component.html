@@ -9,8 +9,9 @@
           class="survey__input--standard-width survey__input--card"
           (blur)="showErrorMsg($event)"
           (input)="showErrorMsg($event)"
+          [formControl]="titleControl()"
         />
-        <app-delete-btn></app-delete-btn>
+        <app-delete-btn (delete)="clearSurveyName.emit()"></app-delete-btn>
       </div>
       <p class="error_msg" [class.error_msg--visible]="isVisible">This field is mandatory!</p>
     </div>
@@ -20,8 +21,8 @@
         <label class="create-survey__label">Set end date (optional)</label>
 
         <div class="create-survey__input-row">
-          <input type="date" class="survey__input--small-width survey__input--card" [min]="today" />
-          <app-delete-btn></app-delete-btn>
+          <input [formControl] = "datumControl()" type="date" class="survey__input--small-width survey__input--card" [min]="today" />
+          <app-delete-btn (delete)="clearSurveyDatum.emit()"></app-delete-btn>
         </div>
       </div>
 
@@ -39,8 +40,8 @@
     <div class="create-survey__field">
       <label class="create-survey__label">Describing text (optional)</label>
       <div class="create-survey__input-row">
-        <textarea class="survey__textarea--card survey__input--standard-width"></textarea>
-        <app-delete-btn></app-delete-btn>
+        <textarea [formControl]="descriptionControl()" class="survey__textarea--card survey__input--standard-width"></textarea>
+        <app-delete-btn (delete)="clearSurveyDesctiption.emit()"></app-delete-btn>
       </div>
     </div>
   </div>

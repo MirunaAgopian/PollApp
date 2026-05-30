@@ -30,6 +30,10 @@
   @include flex-column-space-btw;
 }
 
+.create-survey__label {
+  margin-bottom: 8px;
+}
+
 .create-survey__input-row {
   @include flex-space-btw;
   justify-content: unset;

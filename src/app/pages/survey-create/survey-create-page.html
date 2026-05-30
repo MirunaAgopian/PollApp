@@ -19,7 +19,14 @@
 
       <form class="create-survey__body">
         <!-- UPPER CONTAINER -->
-        <app-create-survey></app-create-survey>
+        <app-create-survey
+          (clearSurveyName)="onClearSurveyName()"
+          (clearSurveyDatum)="onClearSurveyDatum()"
+          (clearSurveyDesctiption)="onClearSurveyDescription()"
+          [titleControl]="titleControl"
+          [datumControl]="datumControl"
+          [descriptionControl]="descriptionControl"
+        ></app-create-survey>
 
         <!-- LOWER CONTAINER -->
         <div class="create-survey__lower">

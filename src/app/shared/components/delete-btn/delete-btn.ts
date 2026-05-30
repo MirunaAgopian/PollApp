@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, output } from '@angular/core';
 
 @Component({
   selector: 'app-delete-btn',
@@ -6,4 +6,6 @@ import { Component } from '@angular/core';
   templateUrl: './delete-btn.html',
   styleUrl: './delete-btn.scss',
 })
-export class DeleteBtn {}
+export class DeleteBtn {
+  delete = output<void>();
+}
