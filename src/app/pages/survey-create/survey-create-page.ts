@@ -1,5 +1,12 @@
 import { Component, inject, output } from '@angular/core';
-import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+  AbstractControl,
+} from '@angular/forms';
 import { SurveyService } from '../../core/services/survey.service';
 import { QuestionService } from '../../core/services/question.service';
 import { OptionService } from '../../core/services/option.service';
@@ -50,10 +57,12 @@ export class SurveyCreatePage {
       options: new FormArray([]),
     });
     this.questionsArr.push(question);
-    this.addOption(this.questionsArr.length - 1);
+    const questionIndex = this.questionsArr.length - 1;
+    this.addOption(questionIndex);
+    this.addOption(questionIndex);
   }
 
-  removeQuestion(index: number) {
+  deleteQuestion(index: number) {
     if (this.questionsArr.length <= 1) return;
     this.questionsArr.removeAt(index);
     this.questionsArr.controls.forEach((q, i) => {
@@ -76,9 +85,14 @@ export class SurveyCreatePage {
     optionsArr.push(option);
   }
 
-  removeOption(questionIndex: number, optionIndex: number) {
+  deleteOption(questionIndex: number, optionIndex: number) {
     const optionsArr = this.getOptionsArr(questionIndex);
     const alphabet = ['A', 'B', 'C', 'D', 'E', 'F'];
+    if (optionsArr.length <= 2){
+      const option = optionsArr.at(optionIndex);
+      option.get('text')?.setValue('');
+      return;
+    }
     optionsArr.removeAt(optionIndex);
     optionsArr.controls.forEach((o, i) => {
       o.get('order_index')?.setValue(alphabet[i]);
@@ -115,8 +129,12 @@ export class SurveyCreatePage {
     return this.surveyForm.get('end_date') as FormControl;
   }
 
-   get descriptionControl(): FormControl {
+  get descriptionControl(): FormControl {
     return this.surveyForm.get('description') as FormControl;
+  }
+
+  getOptions(q: AbstractControl): FormArray {
+    return q.get('options') as FormArray;
   }
 
   onClearSurveyDatum() {
@@ -127,7 +145,7 @@ export class SurveyCreatePage {
     this.surveyForm.get('title')!.setValue('');
   }
 
-  onClearSurveyDescription(){
+  onClearSurveyDescription() {
     this.surveyForm.get('description')!.setValue('');
   }
 }
