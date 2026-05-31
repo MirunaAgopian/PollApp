@@ -13,11 +13,10 @@ import { OptionService } from '../../core/services/option.service';
 import { Router } from '@angular/router';
 import { CreateSurvey } from '../../features/surveys/create-survey/create-survey.component';
 import { CreateQuestion } from '../../features/questions/create-question/create-question.component';
-import { CreateOption } from '../../features/options/create-option/create-option.component';
 
 @Component({
   selector: 'app-survey-create-page',
-  imports: [ReactiveFormsModule, CreateSurvey, CreateQuestion, CreateOption],
+  imports: [ReactiveFormsModule, CreateSurvey, CreateQuestion],
   templateUrl: './survey-create-page.html',
   styleUrl: './survey-create-page.scss',
 })
@@ -63,7 +62,11 @@ export class SurveyCreatePage {
   }
 
   deleteQuestion(index: number) {
-    if (this.questionsArr.length <= 1) return;
+    if (this.questionsArr.length <= 1) {
+      const question = this.questionsArr.at(index);
+      question.get('text')?.setValue('');
+      return;
+    }
     this.questionsArr.removeAt(index);
     this.questionsArr.controls.forEach((q, i) => {
       q.get('order_index')?.setValue(i + 1);
@@ -88,7 +91,7 @@ export class SurveyCreatePage {
   deleteOption(questionIndex: number, optionIndex: number) {
     const optionsArr = this.getOptionsArr(questionIndex);
     const alphabet = ['A', 'B', 'C', 'D', 'E', 'F'];
-    if (optionsArr.length <= 2){
+    if (optionsArr.length <= 2) {
       const option = optionsArr.at(optionIndex);
       option.get('text')?.setValue('');
       return;
