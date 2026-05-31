@@ -13,5 +13,12 @@ export class Dialog {
   close() {
     this.openChange.emit(false);
   }
-  
+
+  ngOnChanges() {
+    if (this.open()) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+  }
 }

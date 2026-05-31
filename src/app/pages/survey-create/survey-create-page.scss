@@ -1,5 +1,13 @@
 @import '../../../styles/abstracts/mixins';
 
+.create-survey__main {
+  background-color: var(--color-purple-dark);
+  color: var(--color-bg-card-dropdown);
+  padding: 20px 40px;
+  border-radius: 0 70px 0 0;
+  margin: 20px 0;
+  
+}
 
 .create-survey__badge {
   width: 80px;
@@ -18,13 +26,6 @@
   }
 }
 
-.create-survey__main {
-  background-color: var(--color-purple-dark);
-  color: var(--color-bg-card-dropdown);
-  padding: 20px 40px;
-  border-radius: 0 70px 0 0;
-}
-
 .create-survey__body {
   background-color: var(--color-purple-light);
   border-radius: 0 70px 0 0;
@@ -40,9 +41,8 @@
 }
 
 .create-survey__questions {
-   @include grid-two-columns;
+  @include grid-two-columns;
 }
-
 
 .create-survey__add-question-btn {
   grid-column: 2;
@@ -61,6 +61,3 @@
     background-color: var(--color-orange-primary);
   }
 }
-
-
-

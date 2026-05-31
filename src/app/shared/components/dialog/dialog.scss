@@ -1,18 +1,22 @@
-// Dialog styling
+@import '../../../../styles/abstracts/mixins';
 
+// Dialog styling
 .modal-overlay {
-  position: fixed;
+  display: none;
+  // position: fixed;
+  position: absolute;
+  min-height: 100%;
   inset: 0;
   background: white;
-  display: none;
-  justify-content: center;
-  align-items: center;
   z-index: 99999;
   height: 100%;
   width: 100%;
+  overflow-y: auto;
 
   &--open {
-    display: flex;
+    @include flex-center;
+    align-items: flex-start;
+    padding: 40px 0;
   }
 }
 
@@ -20,5 +24,5 @@
   background: var(--color-bg-card);
   border-radius: 16px;
   padding: 24px;
-  overflow-y: auto;
+  
 }
