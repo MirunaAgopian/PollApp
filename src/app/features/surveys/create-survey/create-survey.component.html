@@ -30,6 +30,7 @@
         <app-dropdown
           label="Choose category"
           [options]="categories"
+          [control]="categoryControl()"
           [(value)]="selectedCategory"
         ></app-dropdown>
       </div>

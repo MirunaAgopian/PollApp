@@ -30,4 +30,8 @@ export class CreateQuestion {
     return this.questionGroup().get('text');
   }
 
+  get multipleAnswerControl() {
+    return this.questionGroup().get('allow_multiple');
+  }
+
 }

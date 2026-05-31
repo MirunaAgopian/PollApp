@@ -104,14 +104,28 @@ export class SurveyCreatePage {
 
   async submitSurvey() {
     if (this.surveyForm.invalid) return;
-    const survey = await this.surveyService.insertSurvey(this.surveyForm.value);
-    for (let q of this.surveyForm.value.questions! as any[]) {
-      const question = await this.questionService.insertQuestion(q, survey.id);
-      for (let o of q.options! as any[]) {
+    const formValue = this.normalizeSurveyPayload(this.surveyForm.value);
+    const survey = await this.surveyService.insertSurvey(formValue);
+    await this.insertQuestionsAndOptions(formValue.questions, survey.id);
+    this.redirectToSurveyDetails(survey.id);
+  }
+
+  private normalizeSurveyPayload(value: any) {
+    return {
+      ...value,
+      end_date: value.end_date || null,
+      description: value.description || null,
+    };
+  }
+
+  private async insertQuestionsAndOptions(questions: any[], surveyId: number) {
+    for (const q of questions) {
+      const question = await this.questionService.insertQuestion(q, surveyId);
+
+      for (const o of q.options) {
         await this.optionService.insertOptions(o, question.id);
       }
     }
-    this.redirectToSurveyDetails(survey.id);
   }
 
   redirectToSurveyDetails(id: number) {
@@ -134,6 +148,10 @@ export class SurveyCreatePage {
 
   get descriptionControl(): FormControl {
     return this.surveyForm.get('description') as FormControl;
+  }
+
+  get categoryControl(): FormControl {
+    return this.surveyForm.get('category') as FormControl;
   }
 
   getOptions(q: AbstractControl): FormArray {

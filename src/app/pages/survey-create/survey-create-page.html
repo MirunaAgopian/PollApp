@@ -17,7 +17,7 @@
         </button>
       </header>
 
-      <form class="create-survey__body">
+      <form class="create-survey__body" [formGroup]="surveyForm">
         <!-- UPPER CONTAINER -->
         <app-create-survey
           (clearSurveyName)="onClearSurveyName()"
@@ -26,6 +26,7 @@
           [titleControl]="titleControl"
           [datumControl]="datumControl"
           [descriptionControl]="descriptionControl"
+          [categoryControl]="categoryControl"
         ></app-create-survey>
 
         <!-- LOWER CONTAINER -->
@@ -57,7 +58,13 @@
           </div>
         </section>
       </form>
-      <button class="create-survey__publish-btn btn btn-primary btn--icon-check">Publish</button>
+      <button
+        (click)="submitSurvey()"
+        [disabled]="surveyForm.invalid"
+        class="create-survey__publish-btn btn btn-primary btn--icon-check"
+      >
+        Publish
+      </button>
     </section>
   </main>
 </div>

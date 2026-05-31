@@ -8,16 +8,15 @@
     class="survey__input--standard-width survey__input--card"
     (blur)="showErrorMsg($event)"
     (input)="showErrorMsg($event)"
-    [formControl] = "getTextControl()"
+    [formControl]="getTextControl()"
   />
   <p class="error_msg" [class.error_msg--visible]="isVisible">This field is mandatory!</p>
 </section>
 <section class="create-survey__answers">
   <div class="create-survey__allow-multiple">
     <label class="create-survey__label">Answers</label>
-
     <label class="create-survey__checkbox">
-      <input type="checkbox" />
+      <input type="checkbox" [formControl]="multipleAnswerControl" />
       Allow multiple answers.
     </label>
   </div>

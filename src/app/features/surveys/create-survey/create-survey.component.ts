@@ -15,6 +15,7 @@ export class CreateSurvey {
   selectedCategory: string | null = null;
   isVisible: boolean = false;
   today = new Date().toISOString().split('T')[0];
+  categoryControl = input<FormControl>();
 
   clearSurveyName = output<void>();
   titleControl = input.required<FormControl>();
@@ -33,5 +34,5 @@ export class CreateSurvey {
       this.isVisible = false;
     }
   }
-
+ 
 }

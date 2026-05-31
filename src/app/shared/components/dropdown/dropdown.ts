@@ -1,4 +1,5 @@
 import { Component, ElementRef, HostListener, input, output, viewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-dropdown',
@@ -12,8 +13,8 @@ export class Dropdown {
   value = input<string | null>(null);
   valueChange = output<string>();
   dropdownRef = viewChild<ElementRef>('dropdownRef');
-
   isCategoriesOpen = false;
+  control = input<FormControl>();
 
   toggleDropdown() {
     this.isCategoriesOpen = !this.isCategoriesOpen;
@@ -33,9 +34,14 @@ export class Dropdown {
     }
   }
 
-
   select(option: string) {
     this.valueChange.emit(option);
+    const control = this.control();
+    if (control) {
+      control.setValue(option);
+      control.markAsDirty();
+      control.markAsTouched();
+    }
     this.isCategoriesOpen = false;
   }
 }
