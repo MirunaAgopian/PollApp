@@ -13,6 +13,7 @@ import { OptionService } from '../../core/services/option.service';
 import { Router } from '@angular/router';
 import { CreateSurvey } from '../../features/surveys/create-survey/create-survey.component';
 import { CreateQuestion } from '../../features/questions/create-question/create-question.component';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-survey-create-page',
@@ -26,6 +27,9 @@ export class SurveyCreatePage {
   optionService = inject(OptionService);
   router = inject(Router);
   close = output<void>();
+  isPublishedOverlayOpen = false;
+  lastCreatedSurveyId: number | null = null;
+  constructor(private cd: ChangeDetectorRef) {}
 
   surveyForm = new FormGroup({
     title: new FormControl('', {
@@ -105,9 +109,12 @@ export class SurveyCreatePage {
   async submitSurvey() {
     if (this.surveyForm.invalid) return;
     const formValue = this.normalizeSurveyPayload(this.surveyForm.value);
+    formValue.is_published = true;
     const survey = await this.surveyService.insertSurvey(formValue);
     await this.insertQuestionsAndOptions(formValue.questions, survey.id);
-    this.redirectToSurveyDetails(survey.id);
+    this.lastCreatedSurveyId = survey.id;
+    this.isPublishedOverlayOpen = true;
+    this.cd.detectChanges();
   }
 
   private normalizeSurveyPayload(value: any) {
@@ -126,6 +133,11 @@ export class SurveyCreatePage {
         await this.optionService.insertOptions(o, question.id);
       }
     }
+  }
+
+  closePublishedOverlay() {
+    this.isPublishedOverlayOpen = false;
+    this.redirectToSurveyDetails(this.lastCreatedSurveyId!);
   }
 
   redirectToSurveyDetails(id: number) {
