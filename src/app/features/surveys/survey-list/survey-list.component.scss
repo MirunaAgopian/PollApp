@@ -8,6 +8,7 @@ h3 {
 .landing-page__ending-soon-cards {
   @include flex-space-btw;
   gap: 16px;
+  flex-wrap: nowrap;
 }
 
 .landing-page__active-cards {
@@ -17,3 +18,21 @@ h3 {
 .no-surveys {
   font-size: var(--font-size-text-medium);
 }
+
+.survey-list-container {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  padding-bottom: 10px;
+  @include thin-scrollbar;
+}
+
+.survey-card {
+  flex: 0 0 auto;
+  width: 300px;
+}
+
+

@@ -35,14 +35,14 @@
   }
 }
 
-@mixin thin-scrollbar() {
+@mixin thin-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: var(--color-orange-primary) transparent;
   overflow: overlay;
 
   &::-webkit-scrollbar {
     width: 6px;
-    height: 6px;
+    height: 8px;
     appearance: none; 
   }
 
@@ -61,3 +61,5 @@
     height: 0;
   }
 }
+
+

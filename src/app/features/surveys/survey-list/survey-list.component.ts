@@ -17,23 +17,24 @@ export class SurveyListComponent {
   limit = input<number | undefined>();
   sort = input<string | undefined>();
   secondaryStyle = input(false);
+  category = input<string | null>();
 
   ngOnInit() {
     this.surveyService.getAllSurveys();
   }
 
   private filterSurveys(list: Survey[]) {
-    const now = new Date();
+    const today = this.normalize(new Date());
 
     switch (this.filter()) {
       case 'ending-soon':
-        return list.filter((s) => new Date(s.end_date) > now);
+        return list.filter((s) => new Date(s.end_date) >= today);
 
       case 'active':
-        return list.filter((s) => new Date(s.end_date) >= now);
+        return list.filter((s) => new Date(s.end_date) >= today);
 
       case 'past':
-        return list.filter((s) => new Date(s.end_date) < now);
+        return list.filter((s) => new Date(s.end_date) < today);
 
       default:
         return list;
@@ -51,10 +52,23 @@ export class SurveyListComponent {
     return this.limit ? list.slice(0, this.limit()) : list;
   }
 
+  private normalize(date: Date) {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  }
+
+  private filterByCategory(list: Survey[]) {
+    const category = this.category();
+    if (!category || category === 'All') {
+      return list;
+    }
+    return list.filter((s) => s.category === category);
+  }
+
   getfilteredSurveys() {
     let list = [...this.surveyList()];
 
     list = this.filterSurveys(list);
+    list = this.filterByCategory(list);
     list = this.sortSurveys(list);
     list = this.limitSurveys(list);
 
@@ -66,8 +80,11 @@ export class SurveyListComponent {
     const today = new Date();
     const remainingDays = (surveyDate.getTime() - today.getTime()) / 86400000;
     const roundUpDays = Math.ceil(remainingDays);
-    if (roundUpDays <= 0) {
+    if (roundUpDays < 0) {
       return 'Survey expired';
+    }
+    if (roundUpDays === 0) {
+      return 'Ends today';
     } else {
       return `Ends in ${roundUpDays} days.`;
     }

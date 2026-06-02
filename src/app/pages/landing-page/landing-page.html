@@ -54,7 +54,12 @@
     <section class="landing-page__ending-soon centered-section section-spacing-vertical">
       <h2 class="landing-page__section-title">Your surveys</h2>
       <h3 class="landing-page__section-subtitle">Ending soon surveys</h3>
-      <app-survey-list></app-survey-list>
+      <app-survey-list
+        filter="ending-soon"
+        sort="soonest-first"
+        [secondaryStyle]="false"
+        [limit]="4"
+      ></app-survey-list>
     </section>
 
     <!-- ACTIVE / PAST SURVEYS SECTION -->
@@ -88,7 +93,12 @@
           ></app-dropdown>
         </div>
       </div>
-      <app-survey-list [filter]="activeFilter" sort="soonest-first" [secondaryStyle]="true">
+      <app-survey-list
+        [filter]="activeFilter"
+        sort="soonest-first"
+        [secondaryStyle]="true"
+        [category]="selectedCategory"
+      >
       </app-survey-list>
     </section>
   </main>
