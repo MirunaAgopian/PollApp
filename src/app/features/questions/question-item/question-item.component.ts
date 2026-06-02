@@ -17,6 +17,7 @@ export class QuestionItem {
   optionService = inject(OptionService);
   options = signal<Option[]>([]);
   private optionChannel: RealtimeChannel | null = null;
+  isPastSurvey = input<boolean>(false);
 
   async ngOnInit() {
     const initialOptions = await this.optionService.getOptionsForQuestion(this.question().id);

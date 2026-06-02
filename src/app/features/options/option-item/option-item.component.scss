@@ -22,3 +22,10 @@
     font-weight: 800;
   }
 }
+
+.option-item__entry.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+  background-color: transparent;
+}

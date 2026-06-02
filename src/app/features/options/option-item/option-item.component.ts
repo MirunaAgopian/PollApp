@@ -11,7 +11,7 @@ import { Option } from '../../../core/interfaces/option.interface';
 export class OptionItem {
   option = input.required<Option>();
   vote = output<Option>();
-
+  isPastSurvey = input<boolean>(false);
 
   onVoteClick() {
     this.vote.emit(this.option());

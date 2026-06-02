@@ -1,10 +1,11 @@
-import { Component, inject, } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SurveyDetail } from '../../features/surveys/survey-detail/survey-detail.component';
 import { RouterLink, ActivatedRoute } from '@angular/router';
 import { VoteResults } from '../../features/votes/vote-results/vote-results.component';
 import { OptionService } from '../../core/services/option.service';
 import { VoteService } from '../../core/services/vote.service';
 import { QuestionService } from '../../core/services/question.service';
+import { SurveyService } from '../../core/services/survey.service';
 
 @Component({
   selector: 'app-survey-page',
@@ -17,16 +18,35 @@ export class SurveyPage {
   questionService = inject(QuestionService);
   optionService = inject(OptionService);
   voteService = inject(VoteService);
+  surveyService = inject(SurveyService);
 
   questions = this.questionService.questions;
   options = this.optionService.options;
   votes = this.voteService.votes;
+  isPastSurvey: boolean = false;
 
   async ngOnInit() {
     const surveyId = this.route.snapshot.paramMap.get('id')!;
     await this.questionService.getQuestionsForSurvey(surveyId);
     await this.optionService.getOptionsForSurvey(surveyId);
     await this.voteService.getVotesForSurvey(surveyId);
+  }
+
+  async ngAfterViewInit() {
+    const surveyId = this.route.snapshot.paramMap.get('id')!;
+    const survey = await this.surveyService.getSingleSurvey(surveyId);
+
+    if (survey) {
+      this.computeIsPast(survey.end_date);
+    }
+  }
+
+  private computeIsPast(endDate: string) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const end = new Date(endDate);
+    end.setHours(0, 0, 0, 0);
+    this.isPastSurvey = end < today;
   }
 
   optionsForQuestion(qId: number | string) {

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { SurveyService } from '../../../core/services/survey.service';
 import { ActivatedRoute } from '@angular/router';
 import { QuestionService } from '../../../core/services/question.service';
@@ -16,6 +16,7 @@ export class SurveyDetail {
   surveyDetails = this.surveyService.singleSurvey;
   surveyQuestions = this.questionService.questions;
   private route = inject(ActivatedRoute);
+  isPastSurvey = input<boolean>(false);
   
 
   ngOnInit() {

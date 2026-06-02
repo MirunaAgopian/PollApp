@@ -48,9 +48,13 @@
   gap: 32px;
 }
 
-
 .survey-details__btn {
   justify-self: flex-end;
+}
+
+.survey-details__btn:disabled {
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 .survey-details__placeholder,

@@ -2,6 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import { Survey } from '../interfaces/survey.interface';
 import { supabase } from './supabase.client';
 import { RealtimeChannel } from '@supabase/supabase-js';
+import { ReturnStatement } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root',
@@ -34,8 +35,10 @@ export class SurveyService {
         .single();
       if (error) console.error('Supabase error at getSingleSurvey:', error);
       this.singleSurvey.set(surveys);
+      return surveys;
     } catch (err) {
       console.error('Unexpected JS runtime error in getSingleSurvey:', err);
+      return null;
     }
   }
 
@@ -44,11 +47,11 @@ export class SurveyService {
       const { data, error } = await supabase
         .from('surveys')
         .insert({
-         title: survey.title,
-         description: survey.description,
-         category: survey.category,
-         end_date: survey.end_date,
-         is_published: survey.is_published,
+          title: survey.title,
+          description: survey.description,
+          category: survey.category,
+          end_date: survey.end_date,
+          is_published: survey.is_published,
         })
         .select();
       if (error) {
@@ -76,7 +79,7 @@ export class SurveyService {
   }
 
   stopListeningForSurveyInserts() {
-    if(this.surveyChannel){
+    if (this.surveyChannel) {
       this.surveyChannel.unsubscribe();
       this.surveyChannel = null;
     }
