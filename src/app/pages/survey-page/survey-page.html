@@ -2,14 +2,25 @@
   <header class="survey-details-header">
     <nav>
       <img [routerLink]="['/']" src="/assets/images/ui/logo_dark.svg" alt="the logo of the app" />
-      <button class="btn btn--primary btn--icon-plus">Create survey</button>
+      <button (click)="openCreateSurveyModal()" class="btn btn--primary btn--icon-plus">
+        Create survey
+      </button>
     </nav>
   </header>
+  <app-dialog [(open)]="isCreateSurveyOpen">
+    <app-survey-create-page (close)="isCreateSurveyOpen = false"></app-survey-create-page>
+  </app-dialog>
   <main class="survey-details-page">
     <!-- LEFT: SURVEY DETAILS -->
     <section class="survey-details__survey card-primary-sd">
       <app-survey-detail [isPastSurvey]="isPastSurvey"></app-survey-detail>
-      <button class="survey-details__btn btn btn--primary" [disabled]="isPastSurvey">Complete survey</button>
+      <button
+        (click)="completeSurvey()"
+        class="survey-details__btn btn btn--primary"
+        [disabled]="isPastSurvey"
+      >
+        Complete survey
+      </button>
     </section>
     <!-- RIGHT: DISPLAY VOTES -->
     <section class="survey-details__votes">

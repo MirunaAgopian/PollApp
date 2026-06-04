@@ -26,6 +26,7 @@ export class LandingPage {
   ngOnDestroy() {
     document.body.removeAttribute('data-page');
   }
+  
   openCreateSurveyModal() {
     this.isCreateSurveyOpen = true;
   }

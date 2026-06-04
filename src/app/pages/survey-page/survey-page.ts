@@ -1,15 +1,17 @@
 import { Component, inject } from '@angular/core';
 import { SurveyDetail } from '../../features/surveys/survey-detail/survey-detail.component';
-import { RouterLink, ActivatedRoute } from '@angular/router';
+import { RouterLink, ActivatedRoute, Router } from '@angular/router';
 import { VoteResults } from '../../features/votes/vote-results/vote-results.component';
 import { OptionService } from '../../core/services/option.service';
 import { VoteService } from '../../core/services/vote.service';
 import { QuestionService } from '../../core/services/question.service';
 import { SurveyService } from '../../core/services/survey.service';
+import { Dialog } from '../../shared/components/dialog/dialog';
+import { SurveyCreatePage } from '../survey-create/survey-create-page';
 
 @Component({
   selector: 'app-survey-page',
-  imports: [SurveyDetail, RouterLink, VoteResults],
+  imports: [SurveyDetail, RouterLink, VoteResults, Dialog, SurveyCreatePage],
   templateUrl: './survey-page.html',
   styleUrl: './survey-page.scss',
 })
@@ -24,6 +26,8 @@ export class SurveyPage {
   options = this.optionService.options;
   votes = this.voteService.votes;
   isPastSurvey: boolean = false;
+  router = inject(Router);
+  isCreateSurveyOpen:boolean = false;
 
   async ngOnInit() {
     const surveyId = this.route.snapshot.paramMap.get('id')!;
@@ -66,5 +70,13 @@ export class SurveyPage {
 
   hasVotes() {
     return this.votes().length > 0;
+  }
+
+  completeSurvey(){
+    this.router.navigate(['/']);
+  }
+
+  openCreateSurveyModal() {
+    this.isCreateSurveyOpen = true;
   }
 }
