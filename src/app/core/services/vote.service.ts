@@ -1,12 +1,14 @@
 import { Injectable, signal } from '@angular/core';
 import { Vote } from '../interfaces/vote.interface';
 import { supabase } from './supabase.client';
+import { RealtimeChannel } from '@supabase/supabase-js';
 
 @Injectable({
   providedIn: 'root',
 })
 export class VoteService {
   votes = signal<Vote[]>([]);
+  voteChannel: RealtimeChannel | null = null;
 
   // USED BY QuestionItem (left side of survey-page)
   async getVotesForQuestion(questionId: string) {
@@ -54,19 +56,13 @@ export class VoteService {
     }
   }
 
-  async insertVote() {
+  async insertVote(questionId: string, optionIds: string[]) {
     try {
-      const { data, error } = await supabase
-        .from('votes')
-        .insert(
-          //TEST
-          {
-            question_id: 1,
-            option_id: 3,
-          },
-          //TEST
-        )
-        .select();
+      const payload = optionIds.map((optionId) => ({
+        questionId: questionId,
+        optionId: optionId,
+      }));
+      const { data, error } = await supabase.from('votes').insert(payload).select();
       if (error) {
         console.error('Supabase error at insertVotes:', error);
       }
@@ -75,6 +71,24 @@ export class VoteService {
     }
   }
 
-  //listenForVoteInserts(){}
-  //stopListeningForVoteInterts(){} -> to be called on survey-detail-page
+  listenForVoteInserts() {
+    this.voteChannel = supabase
+      .channel('custom-insert-channel')
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'votes' },
+        (payload) => {
+          const newVote = payload.new as Vote;
+          this.votes.update((current) => [...current, newVote]);
+        },
+      )
+      .subscribe();
+  }
+
+  stopListeningForVoteInterts(){
+    if(this.voteChannel){
+      this.voteChannel.unsubscribe();
+      this.voteChannel = null;
+    }
+  }
 }

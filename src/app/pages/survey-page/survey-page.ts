@@ -30,14 +30,21 @@ export class SurveyPage {
     await this.questionService.getQuestionsForSurvey(surveyId);
     await this.optionService.getOptionsForSurvey(surveyId);
     await this.voteService.getVotesForSurvey(surveyId);
+    this.voteService.listenForVoteInserts();
   }
 
+  ngOnDestroy(){
+    this.voteService.stopListeningForVoteInterts();
+  }
+
+  //fixes runtime error for isPastSturvey
   async ngAfterViewInit() {
     const surveyId = this.route.snapshot.paramMap.get('id')!;
     const survey = await this.surveyService.getSingleSurvey(surveyId);
-
     if (survey) {
-      this.computeIsPast(survey.end_date);
+      setTimeout(() => {
+        this.computeIsPast(survey.end_date);
+      });
     }
   }
 
