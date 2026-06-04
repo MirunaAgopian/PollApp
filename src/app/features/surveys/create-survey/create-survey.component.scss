@@ -1,4 +1,4 @@
-@import '../../../../styles/abstracts/mixins' ;
+@import '../../../../styles/abstracts/mixins';
 
 .error_msg {
   color: red;
@@ -14,11 +14,6 @@
 
 .create-survey__upper {
   @include flex-space-btw;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    gap: 24px;
-  }
 }
 
 .create-survey__left {
@@ -50,3 +45,35 @@
     align-self: flex-start;
   }
 }
+
+@media (max-width: 1000px) {
+  .create-survey__upper {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .create-survey__row {
+    flex-direction: column-reverse;
+  }
+
+  .create-survey__dropdown {
+    align-self: flex-start;
+    margin-bottom: 24px;
+  }
+
+  .create-survey__upper,
+  .create-survey__left,
+  .create-survey__right,
+  .create-survey__row,
+  .create-survey__field,
+  .create-survey__input-row {
+    width: 100%;
+  }
+
+  .create-survey__input-row input,
+  .create-survey__input-row textarea {
+    flex: 1;
+    width: 100%;
+  }
+}
+

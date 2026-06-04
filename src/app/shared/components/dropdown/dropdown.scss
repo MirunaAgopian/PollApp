@@ -64,3 +64,13 @@
     font-size: var(--font-size-button);
   }
 }
+
+@media (max-width: 360px) {
+  .dropdown {
+    width: 200px;
+  }
+
+  .dropdown__trigger {
+    width: 200px;
+  }
+}

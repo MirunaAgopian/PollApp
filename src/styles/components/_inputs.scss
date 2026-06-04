@@ -34,3 +34,9 @@
 .survey__input--small-width {
   width: 150px;
 }
+
+@media(max-width: 900px) {
+   .survey__input--medium-width {
+    width: 100%;
+  }
+}

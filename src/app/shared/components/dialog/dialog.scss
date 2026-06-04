@@ -22,6 +22,9 @@
 .modal-content {
   background: var(--color-bg-card);
   border-radius: 16px;
-  padding: 24px;
-  
+  padding: 16px;
+
+  width: 100%;
+  max-width: 1100px;          // or whatever your modal size is
+  box-sizing: border-box;    // ensures padding stays inside width
 }

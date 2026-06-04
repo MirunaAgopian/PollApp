@@ -1,5 +1,9 @@
 @import '../../../styles/abstracts/mixins';
 
+* {
+  outline: 1px solid red;
+}
+
 .create-survey__main {
   background-color: var(--color-purple-dark);
   color: var(--color-bg-card-dropdown);
@@ -132,4 +136,38 @@
   }
 }
 
+@media (max-width: 900px) {
+  .create-survey__questions {
+    display: flex;
+    flex-direction: column;
+  }
+}
 
+@media (max-width: 550px) {
+  .create-survey__header {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+
+    button {
+      align-self: flex-end;
+    }
+  }
+
+  .create-survey__main {
+    padding: 20px;
+  }
+
+  .create-survey__body {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 400px) {
+  .create-survey__body {
+    padding: 0;
+  }
+
+   .create-survey__main {
+    padding: 8px;
+  }
+}
