@@ -1,9 +1,5 @@
 @import '../../../styles/abstracts/mixins';
 
-* {
-  outline: 1px solid red;
-}
-
 .create-survey__main {
   background-color: var(--color-purple-dark);
   color: var(--color-bg-card-dropdown);
