@@ -1,6 +1,6 @@
-import { Component, input, output } from '@angular/core';
+import { Component, inject, input, output, signal } from '@angular/core';
 import { Option } from '../../../core/interfaces/option.interface';
-
+import { VoteService } from '../../../core/services/vote.service';
 
 @Component({
   selector: 'app-option-item',
@@ -10,10 +10,15 @@ import { Option } from '../../../core/interfaces/option.interface';
 })
 export class OptionItem {
   option = input.required<Option>();
-  vote = output<Option>();
   isPastSurvey = input<boolean>(false);
+  voteService = inject(VoteService);
+  questionId = input.required<string>();
+  isChecked = input<boolean>(false);
+  clicked = output<string>();
 
-  onVoteClick() {
-    this.vote.emit(this.option());
+
+  submitVote(optionId: string) {
+    this.voteService.insertVote(this.questionId(), [optionId]);
+    this.clicked.emit(optionId);
   }
 }

@@ -18,11 +18,16 @@ export class QuestionItem {
   options = signal<Option[]>([]);
   private optionChannel: RealtimeChannel | null = null;
   isPastSurvey = input<boolean>(false);
+  selectedOptions = signal<string[]>([]);
 
   async ngOnInit() {
     const initialOptions = await this.optionService.getOptionsForQuestion(this.question().id);
     this.options.set(initialOptions);
     this.listenForOptionInserts();
+  }
+
+  ngOnDestroy() {
+    this.stopListeningForOptionInsert();
   }
 
   listenForOptionInserts() {
@@ -53,5 +58,13 @@ export class QuestionItem {
 
   isMultipleAllowed(): boolean {
     return this.question().allow_multiple === true;
+  }
+
+  onOptionClicked(optionId: string) {
+    if (this.isMultipleAllowed()) {
+      this.selectedOptions.update((list) => (list.includes(optionId) ? list : [...list, optionId]));
+    } else {
+      this.selectedOptions.set([optionId]);
+    }
   }
 }

@@ -17,7 +17,7 @@ export class VoteResults {
   question = input<Question | null>(null);
 
   getTotalVotes() {
-    let totalVotes = this.votes.length;
+    let totalVotes = this.votes().length;
     return totalVotes;
   }
 

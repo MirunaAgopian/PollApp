@@ -11,11 +11,14 @@ export class VoteService {
   voteChannel: RealtimeChannel | null = null;
 
   // USED BY QuestionItem (left side of survey-page)
+  
   async getVotesForQuestion(questionId: string) {
     const { data, error } = await supabase.from('votes').select('*').eq('question_id', questionId);
-    if (!error) {
-      this.votes.set(data ?? []);
+    if (error) {
+      console.error('Supabase error at getVotesForQuestion:', error);
+      return [];
     }
+    return data ?? [];
   }
 
   // USED BY OptionItem (left side of survey-page)
@@ -59,8 +62,8 @@ export class VoteService {
   async insertVote(questionId: string, optionIds: string[]) {
     try {
       const payload = optionIds.map((optionId) => ({
-        questionId: questionId,
-        optionId: optionId,
+        question_id: questionId,
+        option_id: optionId,
       }));
       const { data, error } = await supabase.from('votes').insert(payload).select();
       if (error) {
@@ -74,19 +77,15 @@ export class VoteService {
   listenForVoteInserts() {
     this.voteChannel = supabase
       .channel('custom-insert-channel')
-      .on(
-        'postgres_changes',
-        { event: 'INSERT', schema: 'public', table: 'votes' },
-        (payload) => {
-          const newVote = payload.new as Vote;
-          this.votes.update((current) => [...current, newVote]);
-        },
-      )
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'votes' }, (payload) => {
+        const newVote = payload.new as Vote;
+        this.votes.update((current) => [...current, newVote]);
+      })
       .subscribe();
   }
 
-  stopListeningForVoteInterts(){
-    if(this.voteChannel){
+  stopListeningForVoteInterts() {
+    if (this.voteChannel) {
       this.voteChannel.unsubscribe();
       this.voteChannel = null;
     }
