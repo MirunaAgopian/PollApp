@@ -133,6 +133,12 @@
   &.open .icon {
     transform: rotate(180deg);
   }
+
+  @media(max-width:400px){
+    .btn-secondary{
+      font-size: var(--font-size-text-small);
+    }
+  }
 }
 
 // Quaternary button

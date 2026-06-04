@@ -64,24 +64,4 @@ export class SurveyService {
     }
   }
 
-  listenForSurveyInserts() {
-    this.surveyChannel = supabase
-      .channel('custom-insert-channel')
-      .on(
-        'postgres_changes',
-        { event: 'INSERT', schema: 'public', table: 'surveys' },
-        (payload) => {
-          const newSurvey = payload.new as Survey;
-          this.surveys.update((current) => [...current, newSurvey]);
-        },
-      )
-      .subscribe();
-  }
-
-  stopListeningForSurveyInserts() {
-    if (this.surveyChannel) {
-      this.surveyChannel.unsubscribe();
-      this.surveyChannel = null;
-    }
-  }
 }

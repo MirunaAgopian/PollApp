@@ -42,27 +42,6 @@ export class QuestionService {
       console.error('Unexpected JS runtime error insertQuestion:', err);
     }
   }
-
-  listenForQuestionInserts() {
-    this.questionChannel = supabase
-      .channel('custom-insert-channel')
-      .on(
-        'postgres_changes',
-        { event: 'INSERT', schema: 'public', table: 'questions' },
-        (payload) => {
-          const newQuestion = payload.new as Question;
-          this.questions.update((current) => [...current, newQuestion]);
-        },
-      )
-      .subscribe();
-  }
-
-  stopListeningForQuestionInserts() {
-    if (this.questionChannel) {
-      this.questionChannel.unsubscribe();
-      this.questionChannel = null;
-    }
-  }
 }
 
 

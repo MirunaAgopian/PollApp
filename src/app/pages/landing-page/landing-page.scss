@@ -56,11 +56,14 @@
   }
 }
 
+.landing-page__hero-right--mobile {
+  display: none;
+}
+
 .landing-page__ending-soon {
   @include flex-column-space-btw;
   gap: 40px;
 }
-
 
 .landing-page__filters-top {
   @include flex-space-btw;
@@ -77,3 +80,25 @@
   }
 }
 
+// Media queries
+@media (max-width: 1000px) {
+  .landing-page__hero {
+    flex-direction: column;
+  }
+
+  .landing-page__hero-right {
+    display: none;
+  }
+
+  .landing-page__hero-right--mobile {
+    display: block;
+    align-self: center;
+    margin-bottom: 80px;
+  }
+
+  .landing-page__filters-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
