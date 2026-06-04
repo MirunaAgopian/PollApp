@@ -28,6 +28,7 @@ export class SurveyPage {
   isPastSurvey: boolean = false;
   router = inject(Router);
   isCreateSurveyOpen:boolean = false;
+  showResultsMobile: boolean = true;
 
   async ngOnInit() {
     const surveyId = this.route.snapshot.paramMap.get('id')!;

@@ -62,3 +62,45 @@
   font-family: var(--font-text-medium);
   text-align: center;
 }
+
+.results-anim {
+  overflow: hidden;
+  animation: slideDown 0.35s ease forwards;
+}
+
+@keyframes slideDown {
+  0% {
+    opacity: 0;
+    max-height: 0;
+    transform: translateY(-6px);
+  }
+  100% {
+    opacity: 1;
+    max-height: 1000px; 
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 1000px) {
+  .survey-details-header {
+    button {
+      display: none;
+    }
+  }
+
+  .survey-details-page {
+    flex-direction: column;
+  }
+
+  .survey-details__votes {
+    margin-bottom: 80px;
+    margin-top: 20px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .survey-details__votes-container {
+    max-width: 850px;
+    width: 100%;
+  }
+}
