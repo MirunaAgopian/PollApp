@@ -1,59 +1,80 @@
 # PollApp
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.7.
+A simple Angular application for creating surveys and voting in real time. version 21.2.7.
 
-## Development server
+# I. Features
+1. Create surveys with multiple questions and options
+2. Vote and see results update in real time
+3. Modular, component‑based architecture
+4. SUPABASE backend for data and real‑time updates
 
-To start a local development server, run:
-
-```bash
-ng serve
+# II. Project Structure
+```
+poll-app/
+│
+├── dist/                         # Production build output (auto-generated)
+├── node_modules/                 # Dependencies (auto-generated)
+│
+├── public/                       # Static assets served as-is
+│   ├── assets/                   # Images, icons, fonts (served directly)
+│   └── favicon.svg               # App favicon
+│
+├── src/
+│   ├── app/                      # Main application code
+│   │   │
+│   │   ├── core/                 # Global logic and app-wide utilities
+│   │   │   ├── interfaces/       # Data models (Survey, Question, Option, Vote)
+│   │   │   └── services/         # CRUD services + Supabase client
+│   │   │
+│   │   ├── features/             # Reusable domain components
+│   │   │   ├── options/          # Option-item + create-option
+│   │   │   ├── questions/        # Question-item + create-question
+│   │   │   ├── surveys/          # Create-survey, survey-detail, survey-list
+│   │   │   └── votes/            # Vote-results
+│   │   │
+│   │   ├── pages/                # Routed pages
+│   │   │   ├── landing-page/     # Displays survey list
+│   │   │   ├── survey-create/    # Survey creation workflow
+│   │   │   └── survey-page/      # Survey detail + voting
+│   │   │
+│   │   ├── shared/               # Reusable UI elements and utilities
+│   │   │   ├── components/       # Dialog, dropdown, delete-btn
+│   │   │   ├── constants/        # Survey categories
+│   │   │   └── pipes/            # Percentage pipe
+│   │   │
+│   │   ├── app.config.ts         # App configuration
+│   │   ├── app.routes.ts         # Routing setup
+│   │   ├── app.component.*       # Root component
+│   │   └── app.ts                # App bootstrap
+│   │
+│   ├── styles/                   # Global SCSS architecture
+│   │   ├── abstracts/            # Colors, mixins
+│   │   ├── base/                 # Reset, typography, global styles
+│   │   ├── components/           # Buttons, cards, inputs, checkbox, hero
+│   │   ├── layout/               # Spacing utilities
+│   │   └── main.scss             # Imports all partials
+│   │
+│   ├── index.html                # App entry HTML
+│   ├── main.ts                   # Angular bootstrap
+│   └── styles.scss               # Imports main.scss
+│
+├── angular.json                  # Angular workspace config
+├── package.json                  # Project metadata + scripts
+├── tsconfig.json                 # TypeScript configuration
+└── README.md                     # Project documentation
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+# III. Tech Stack
+- Angular V21
+- TypeScript
+- SCSS
+- SUPABASE
 
-## Code scaffolding
+# IV. Development
+npm run install
+npm run start
+npm run build
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+# V. License — MIT
+This project is licensed under the MIT License.
+You are free to use, modify, and distribute it with proper attribution.
