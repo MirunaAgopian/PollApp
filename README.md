@@ -1,6 +1,6 @@
 # PollApp
 
-A simple Angular application for creating surveys and voting in real time. version 21.2.7.
+A simple Angular application for creating surveys and voting in real time. 
 
 <div align="center">
   <img src="public/project_img.png" width="400" />
@@ -69,15 +69,17 @@ poll-app/
 ```
 
 # III. Tech Stack
-- Angular V21
+- Angular version 21.2.7.
 - TypeScript
 - SCSS
 - SUPABASE
 
 # IV. Development
+```
 npm run install
 npm run start
 npm run build
+```
 
 # V. License — MIT
 This project is licensed under the MIT License.
