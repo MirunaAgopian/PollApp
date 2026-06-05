@@ -2,6 +2,10 @@
 
 A simple Angular application for creating surveys and voting in real time. version 21.2.7.
 
+<div align="center">
+  <img src="public/project_img.png" width="400" />
+</div>
+
 # I. Features
 1. Create surveys with multiple questions and options
 2. Vote and see results update in real time
