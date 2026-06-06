@@ -7,8 +7,8 @@
         <input
           type="text"
           class="survey__input--standard-width survey__input--card"
-          (blur)="showErrorMsg($event)"
-          (input)="showErrorMsg($event)"
+          (blur)="showErrorMsg()"
+          (input)="showErrorMsg()"
           [formControl]="titleControl()"
         />
         <app-delete-btn (delete)="clearSurveyName.emit()"></app-delete-btn>
@@ -21,17 +21,27 @@
         <label class="create-survey__label">Set end date (optional)</label>
 
         <div class="create-survey__input-row">
-          <input [formControl] = "datumControl()" type="date" class="survey__input--small-width survey__input--card" [min]="today" />
+          <input
+            [formControl]="datumControl()"
+            [min]="today"
+            type="date"
+            onkeydown="return false;"
+            class="survey__input--small-width survey__input--card"
+          />
           <app-delete-btn (delete)="clearSurveyDatum.emit()"></app-delete-btn>
         </div>
       </div>
 
       <div class="create-survey__dropdown">
+        <p class="error_msg" [class.error_msg--visible]="categoryErrorVisible">
+          This field is mandatory!
+        </p>
         <app-dropdown
           label="Choose category"
           [options]="categories"
           [control]="categoryControl()"
           [(value)]="selectedCategory"
+          (valueChange)="onCategorySelected($event)"
         ></app-dropdown>
       </div>
     </div>
@@ -41,7 +51,10 @@
     <div class="create-survey__field">
       <label class="create-survey__label">Describing text (optional)</label>
       <div class="create-survey__input-row">
-        <textarea [formControl]="descriptionControl()" class="survey__textarea--card survey__input--standard-width"></textarea>
+        <textarea
+          [formControl]="descriptionControl()"
+          class="survey__textarea--card survey__input--standard-width"
+        ></textarea>
         <app-delete-btn (delete)="clearSurveyDesctiption.emit()"></app-delete-btn>
       </div>
     </div>

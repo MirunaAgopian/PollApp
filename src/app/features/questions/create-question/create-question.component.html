@@ -6,8 +6,8 @@
   <input
     type="text"
     class="survey__input--standard-width survey__input--card"
-    (blur)="showErrorMsg($event)"
-    (input)="showErrorMsg($event)"
+    (blur)="showErrorMsg()"
+    (input)="showErrorMsg()"
     [formControl]="getTextControl()"
   />
   <p class="error_msg" [class.error_msg--visible]="isVisible">This field is mandatory!</p>
@@ -25,5 +25,6 @@
     [options]="questionGroup().get('options')"
     (addOption)="addOption.emit()"
     (deleteOption)="deleteOption.emit($event)"
+    #createOption
   ></app-create-option>
 </section>

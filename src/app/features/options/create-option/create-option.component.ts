@@ -14,6 +14,7 @@ export class CreateOption {
   addOption = output<number>();
   options = input<FormArray>();
   deleteOption = output<number>();
+  optionErrors: boolean[] = [];
 
   getTextControl(o: AbstractControl) {
     return o.get('text') as FormControl;
@@ -23,13 +24,29 @@ export class CreateOption {
     return String.fromCharCode(65 + i);
   }
 
-  showErrorMsg(event: Event) {
-    let eventVar = event.target as HTMLInputElement;
-    if (eventVar.value === '') {
-      this.isVisible = true;
-    } else {
-      this.isVisible = false;
-    }
+  showErrorMsg(index: number) {
+    const control = this.options()?.controls[index].get('text');
+    this.optionErrors[index] = !control?.value?.trim();
   }
 
+  onAddOption() {
+    this.addOption.emit(this.questionIndex()!);
+    this.optionErrors.push(true); // new empty field → show error
+  }
+
+  onDeleteOption(i: number) {
+    this.deleteOption.emit(i);
+    this.optionErrors.splice(i, 1);
+  }
+
+  showAllErrors() {
+    this.optionErrors =
+      this.options()?.controls.map((c) => {
+        return !c.get('text')?.value?.trim();
+      }) || [];
+  }
+
+  resetSurveyOptionErr() {
+    this.optionErrors = [];
+  }
 }

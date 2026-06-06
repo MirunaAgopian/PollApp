@@ -13,7 +13,7 @@ import { SurveyCreatePage } from '../survey-create/survey-create-page';
 })
 export class LandingPage {
   activeFilter: 'active' | 'past' = 'active';
-  categories = SURVEY_CATEGORIES;
+  categories = ["All surveys", ...SURVEY_CATEGORIES];
   selectedCategory: string | null = null;
   isCreateSurveyOpen = false;
 

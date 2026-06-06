@@ -1,4 +1,4 @@
-import { Component, inject, output } from '@angular/core';
+import { Component, inject, output, ViewChild } from '@angular/core';
 import {
   FormArray,
   FormControl,
@@ -30,10 +30,12 @@ export class SurveyCreatePage {
   isPublishedOverlayOpen = false;
   lastCreatedSurveyId: number | null = null;
   constructor(private cd: ChangeDetectorRef) {}
+  @ViewChild('createSurvey') createSurveyComponent!: CreateSurvey;
+  @ViewChild('createQuestion') createQuestionComponent!: CreateQuestion;
 
   surveyForm = new FormGroup({
     title: new FormControl('', {
-      validators: [Validators.required, Validators.minLength(5)],
+      validators: [Validators.required],
     }),
     description: new FormControl(''),
     end_date: new FormControl(''),
@@ -107,7 +109,7 @@ export class SurveyCreatePage {
   }
 
   async submitSurvey() {
-    if (this.surveyForm.invalid) return;
+    if(!this.canSubmitSurvey()) return;
     const formValue = this.normalizeSurveyPayload(this.surveyForm.value);
     formValue.is_published = true;
     const survey = await this.surveyService.insertSurvey(formValue);
@@ -115,6 +117,13 @@ export class SurveyCreatePage {
     this.lastCreatedSurveyId = survey.id;
     this.isPublishedOverlayOpen = true;
     this.cd.detectChanges();
+  }
+
+  private canSubmitSurvey(): boolean {
+    if (this.surveyForm.valid) return true;
+    this.surveyForm.markAllAsTouched();
+    this.showAllCustomErrors();
+    return false;
   }
 
   private normalizeSurveyPayload(value: any) {
@@ -144,8 +153,18 @@ export class SurveyCreatePage {
     this.router.navigate(['/survey', id]);
   }
 
+  //Resets also the error messages
   closeCreateSurveyModal() {
+    this.surveyForm.reset();
+    this.createSurveyComponent.resetSurveyNameErr();
+    this.createSurveyComponent.resetCategory();
+    this.createQuestionComponent.resetSurveyQuestionErr();
     this.close.emit();
+  }
+
+  showAllCustomErrors() {
+    this.createSurveyComponent.showAllErrors();
+    this.createQuestionComponent.showAllErrors();
   }
 
   //delete functions

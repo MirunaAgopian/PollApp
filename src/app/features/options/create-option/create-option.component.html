@@ -1,18 +1,22 @@
 <section class="create-survey__add-option">
   @for (o of options()?.controls; track o; let i = $index) {
     <div class="create-survey__option">
-      <span class="create-survey__option-label">{{ getLetter(i) }}.</span>
-      <input
-        type="text"
-        class="survey__input--medium-width survey__input--card"
-        [formControl]="getTextControl(o)"
-        (blur)="showErrorMsg($event)"
-        (input)="showErrorMsg($event)"
-      />
-      <app-delete-btn (delete)="deleteOption.emit(i)"></app-delete-btn>
+      <div class="create-survey__option-row">
+        <span class="create-survey__option-label">{{ getLetter(i) }}.</span>
+        <input
+          type="text"
+          class="survey__input--medium-width survey__input--card"
+          [formControl]="getTextControl(o)"
+          (blur)="showErrorMsg(i)"
+          (input)="showErrorMsg(i)"
+        />
+        <app-delete-btn (delete)="onDeleteOption(i)"></app-delete-btn>
+      </div>
+      <p class="error_msg" [class.error_msg--visible]="optionErrors[i]">
+        This field is mandatory!
+      </p>
     </div>
   }
-  <p class="error_msg" [class.error_msg--visible]="isVisible">These fields are mandatory!</p>
   <div class="create-survey__add-answer">
     <button (click)="addOption.emit(questionIndex()!)" type="button" class="create-survey__add-btn">
       Add answer

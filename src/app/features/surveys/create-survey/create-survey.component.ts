@@ -14,6 +14,7 @@ export class CreateSurvey {
   categories = SURVEY_CATEGORIES;
   selectedCategory: string | null = null;
   isVisible: boolean = false;
+  categoryErrorVisible: boolean = false;
   today = new Date().toISOString().split('T')[0];
   categoryControl = input<FormControl>();
 
@@ -26,13 +27,32 @@ export class CreateSurvey {
   clearSurveyDesctiption = output<void>();
   descriptionControl = input.required<FormControl>();
 
-  showErrorMsg(event: Event) {
-    let eventVar = event.target as HTMLInputElement;
-    if (eventVar.value === '') {
-      this.isVisible = true;
-    } else {
-      this.isVisible = false;
+  showErrorMsg() {
+    const control = this.titleControl();
+    this.isVisible = !control?.value?.trim();
+  }
+
+  resetSurveyNameErr() {
+    this.isVisible = false;
+  }
+
+  resetCategory() {
+    this.selectedCategory = '';
+    this.categoryErrorVisible = false;
+  }
+
+  onCategorySelected(value: string | null) {
+    this.selectedCategory = value;
+    if (value) {
+      this.categoryErrorVisible = false;
     }
   }
- 
+
+  showAllErrors() {
+    const title = this.titleControl();
+    const category = this.categoryControl();
+
+    this.isVisible = !title?.value?.trim();
+    this.categoryErrorVisible = !category?.value?.trim();
+  }
 }

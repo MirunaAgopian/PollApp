@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, ViewChild } from '@angular/core';
 import { DeleteBtn } from '../../../shared/components/delete-btn/delete-btn';
 import { CreateOption } from '../../options/create-option/create-option.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -16,14 +16,23 @@ export class CreateQuestion {
   addOption = output<void>();
   deleteOption = output<number>();
   deleteQuestion = output<void>();
+  @ViewChild('createOption') createOptionComponent!: CreateOption;
 
-  showErrorMsg(event: Event) {
-    let eventVar = event.target as HTMLInputElement;
-    if (eventVar.value === '') {
-      this.isVisible = true;
-    } else {
-      this.isVisible = false;
-    }
+  showErrorMsg() {
+    const control = this.getQuestionControl();
+    this.isVisible = !control?.value?.trim();
+  }
+
+  resetSurveyQuestionErr() {
+    this.isVisible = false;
+    this.createOptionComponent.resetSurveyOptionErr();
+  }
+
+  showAllErrors() {
+    const control = this.getQuestionControl();
+    this.isVisible = !control.value?.trim();
+
+    this.createOptionComponent.showAllErrors();
   }
 
   getTextControl() {
@@ -34,4 +43,7 @@ export class CreateQuestion {
     return this.questionGroup().get('allow_multiple');
   }
 
+  getQuestionControl() {
+    return this.questionGroup().get('text');
+  }
 }

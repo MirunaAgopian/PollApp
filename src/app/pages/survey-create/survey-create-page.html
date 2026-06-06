@@ -11,7 +11,7 @@
       <p class="create-survey__badge badge">Draft</p>
       <header class="create-survey__header">
         <h1 class="create-survey__title">Create new survey</h1>
-        <button class="btn-quaternary create-survey__cancel-btn" (click)="closeCreateSurveyModal()">
+        <button (click)="closeCreateSurveyModal()" class="btn-quaternary create-survey__cancel-btn">
           Cancel
           <svg class="icon icon--close" width="20" height="20" viewBox="0 0 24 24">
             <path
@@ -34,6 +34,7 @@
           [datumControl]="datumControl"
           [descriptionControl]="descriptionControl"
           [categoryControl]="categoryControl"
+          #createSurvey
         ></app-create-survey>
 
         <!-- LOWER CONTAINER -->
@@ -47,6 +48,7 @@
                   (addOption)="addOption(i)"
                   (deleteOption)="deleteOption(i, $event)"
                   (deleteQuestion)="deleteQuestion(i)"
+                  #createQuestion
                 ></app-create-question>
               </div>
             }
@@ -67,7 +69,6 @@
       </form>
       <button
         (click)="submitSurvey()"
-        [disabled]="surveyForm.invalid"
         class="create-survey__publish-btn btn btn-primary btn--icon-check"
       >
         Publish

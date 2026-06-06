@@ -58,7 +58,7 @@ export class SurveyListComponent {
 
   private filterByCategory(list: Survey[]) {
     const category = this.category();
-    if (!category || category === 'All') {
+    if (!category || category === 'All surveys') {
       return list;
     }
     return list.filter((s) => s.category === category);

@@ -12,11 +12,17 @@
   visibility: visible;
 }
 
-.create-survey__option {
+.create-survey__option-row {
   @include flex-space-btw;
   width: 100%;
   max-width: 300px;
   margin-bottom: 4px;
+}
+
+.create-survey__option {
+  .error_msg {
+    margin-bottom: 4px;
+  }
 }
 
 .create-survey__add-btn {
