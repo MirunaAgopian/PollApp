@@ -1,4 +1,4 @@
-import { Component, inject, signal, input } from '@angular/core';
+import { Component, inject, signal, input, output } from '@angular/core';
 import { Question } from '../../../core/interfaces/question.interface';
 import { OptionService } from '../../../core/services/option.service';
 import { OptionItem } from '../../options/option-item/option-item.component';
@@ -19,6 +19,7 @@ export class QuestionItem {
   private optionChannel: RealtimeChannel | null = null;
   isPastSurvey = input<boolean>(false);
   selectedOptions = signal<string[]>([]);
+  selectedChange = output<{ questionId: string; optionIds: string[] }>();
 
   async ngOnInit() {
     const initialOptions = await this.optionService.getOptionsForQuestion(this.question().id);
@@ -62,9 +63,15 @@ export class QuestionItem {
 
   onOptionClicked(optionId: string) {
     if (this.isMultipleAllowed()) {
-      this.selectedOptions.update((list) => (list.includes(optionId) ? list : [...list, optionId]));
+      this.selectedOptions.update((list) =>
+        list.includes(optionId) ? list.filter((id) => id !== optionId) : [...list, optionId],
+      );
     } else {
       this.selectedOptions.set([optionId]);
     }
+    this.selectedChange.emit({
+      questionId: this.question().id,
+      optionIds: this.selectedOptions(),
+    });
   }
 }

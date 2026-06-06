@@ -21,14 +21,14 @@ export class SurveyPage {
   optionService = inject(OptionService);
   voteService = inject(VoteService);
   surveyService = inject(SurveyService);
-
   questions = this.questionService.questions;
   options = this.optionService.options;
   votes = this.voteService.votes;
   isPastSurvey: boolean = false;
   router = inject(Router);
-  isCreateSurveyOpen:boolean = false;
+  isCreateSurveyOpen: boolean = false;
   showResultsMobile: boolean = true;
+  answers = new Map<string, string[]>();
 
   async ngOnInit() {
     const surveyId = this.route.snapshot.paramMap.get('id')!;
@@ -38,7 +38,7 @@ export class SurveyPage {
     this.voteService.listenForVoteInserts();
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.voteService.stopListeningForVoteInterts();
   }
 
@@ -73,8 +73,17 @@ export class SurveyPage {
     return this.votes().length > 0;
   }
 
-  completeSurvey(){
+  async completeSurvey() {
+    for (const [questionId, optionIds] of this.answers.entries()) {
+      if (optionIds.length > 0) {
+        await this.voteService.insertVote(questionId, optionIds);
+      }
+    }
     this.router.navigate(['/']);
+  }
+
+  onSelectionChanged(event: { questionId: string; optionIds: string[] }) {
+    this.answers.set(event.questionId, event.optionIds);
   }
 
   openCreateSurveyModal() {

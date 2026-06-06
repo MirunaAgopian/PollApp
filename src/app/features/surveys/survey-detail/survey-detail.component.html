@@ -16,7 +16,13 @@
 
   <article class="survey-detail__questions">
     @for (q of surveyQuestions(); track q.id) {
-      <app-question-item [isPastSurvey]="isPastSurvey()" class="survey-detail__question-item" [question]="q"> </app-question-item>
+      <app-question-item
+        [isPastSurvey]="isPastSurvey()"
+        class="survey-detail__question-item"
+        [question]="q"
+        (selectedChange)="selectionChanged.emit($event)"
+      >
+      </app-question-item>
     }
   </article>
 </section>

@@ -1,4 +1,4 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
 import { SurveyService } from '../../../core/services/survey.service';
 import { ActivatedRoute } from '@angular/router';
 import { QuestionService } from '../../../core/services/question.service';
@@ -17,7 +17,7 @@ export class SurveyDetail {
   surveyQuestions = this.questionService.questions;
   private route = inject(ActivatedRoute);
   isPastSurvey = input<boolean>(false);
-  
+  selectionChanged = output<{ questionId: string; optionIds: string[] }>();
 
   ngOnInit() {
     let currentId = String(this.route.snapshot.paramMap.get('id'));
@@ -41,4 +41,5 @@ export class SurveyDetail {
       year: 'numeric',
     }).format(date);
   }
+
 }

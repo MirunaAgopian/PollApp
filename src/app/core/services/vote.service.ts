@@ -11,7 +11,7 @@ export class VoteService {
   voteChannel: RealtimeChannel | null = null;
 
   // USED BY QuestionItem (left side of survey-page)
-  
+
   async getVotesForQuestion(questionId: string) {
     const { data, error } = await supabase.from('votes').select('*').eq('question_id', questionId);
     if (error) {

@@ -28,7 +28,7 @@
         </svg>
       </button>
 
-      <app-survey-detail [isPastSurvey]="isPastSurvey"></app-survey-detail>
+      <app-survey-detail [isPastSurvey]="isPastSurvey" (selectionChanged)="onSelectionChanged($event)"></app-survey-detail>
       <button
         (click)="completeSurvey()"
         class="survey-details__btn btn btn--primary"

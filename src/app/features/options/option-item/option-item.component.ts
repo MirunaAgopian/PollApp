@@ -18,7 +18,6 @@ export class OptionItem {
 
 
   submitVote(optionId: string) {
-    this.voteService.insertVote(this.questionId(), [optionId]);
-    this.clicked.emit(optionId);
-  }
+  this.clicked.emit(optionId); 
+}
 }
