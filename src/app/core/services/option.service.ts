@@ -2,12 +2,25 @@ import { Injectable, signal } from '@angular/core';
 import { Option } from '../interfaces/option.interface';
 import { supabase } from './supabase.client';
 
+/**
+ * Service for working with answer options.
+ * Handles loading options for a question or a whole survey,
+ * and inserting new options into Supabase.
+ */
+
 @Injectable({
   providedIn: 'root',
 })
 export class OptionService {
   options = signal<Option[]>([]);
 
+  /**
+   * Loads all options that belong to a specific question.
+   * Returns the list directly (does not update the signal).
+   *
+   * @param questionId - The ID of the question to load options for.
+   * @returns A list of options or an empty array if something failed.
+   */
   async getOptionsForQuestion(questionId: string): Promise<Option[]> {
     try {
       const { data, error } = await supabase
@@ -28,7 +41,13 @@ export class OptionService {
     }
   }
 
-  // for the survey detail-page
+  /**
+   * Loads all options for all questions inside a survey.
+   * Updates the `options` signal with the result.
+   * Used on the survey detail page to show all results.
+   *
+   * @param surveyId - The ID of the survey to load options for.
+   */
   async getOptionsForSurvey(surveyId: string): Promise<void> {
     try {
       const { data, error } = await supabase
@@ -50,17 +69,22 @@ export class OptionService {
     }
   }
 
+  /**
+   * Inserts a new option for a specific question.
+   *
+   * @param option - The form data for the new option.
+   * @param questionId - The ID of the question this option belongs to.
+   * @returns The newly created option or undefined if something failed.
+   */
   async insertOptions(option: any, questionId: number) {
     try {
       const { data, error } = await supabase
         .from('options')
-        .insert(
-          {
-            question_id: questionId,
-            text: option.text,
-            order_index: option.order_index,
-          },
-        )
+        .insert({
+          question_id: questionId,
+          text: option.text,
+          order_index: option.order_index,
+        })
         .select();
       if (error) {
         console.error('Supabase error at insertOptions:', error);

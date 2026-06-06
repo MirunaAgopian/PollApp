@@ -3,6 +3,15 @@ import { Vote } from '../interfaces/vote.interface';
 import { supabase } from './supabase.client';
 import { RealtimeChannel } from '@supabase/supabase-js';
 
+/**
+ * Service for working with votes.
+ * Handles loading votes for questions, options, or a whole survey,
+ * and inserting new votes into Supabase.
+ *
+ * The `votes` signal is used on the survey detail page
+ * to show the results after the user submits their vote.
+ */
+
 @Injectable({
   providedIn: 'root',
 })
@@ -10,8 +19,12 @@ export class VoteService {
   votes = signal<Vote[]>([]);
   voteChannel: RealtimeChannel | null = null;
 
-  // USED BY QuestionItem (left side of survey-page)
-
+  /**
+   * Loads all votes for a specific question.
+   *
+   * @param questionId - The ID of the question to load votes for.
+   * @returns A list of votes or an empty array if something failed.
+   */
   async getVotesForQuestion(questionId: string) {
     const { data, error } = await supabase.from('votes').select('*').eq('question_id', questionId);
     if (error) {
@@ -21,7 +34,12 @@ export class VoteService {
     return data ?? [];
   }
 
-  // USED BY OptionItem (left side of survey-page)
+  /**
+   * Loads all votes for a specific option.
+   *
+   * @param optionId - The ID of the option to load votes for.
+   * @returns A list of votes or an empty array if something failed.
+   */
   async getVotesForOption(optionId: string): Promise<Vote[]> {
     try {
       let { data: votes, error } = await supabase
@@ -38,7 +56,12 @@ export class VoteService {
     }
   }
 
-  // USED BY SurveyPage (right side)
+  /**
+   * Loads all votes for all questions inside a survey.
+   * Updates the `votes` signal with the result.
+   *
+   * @param surveyId - The ID of the survey to load votes for.
+   */
   async getVotesForSurvey(surveyId: string) {
     try {
       const { data, error } = await supabase
@@ -59,6 +82,13 @@ export class VoteService {
     }
   }
 
+  /**
+   * Inserts one or more votes for a question.
+   * Called when the user submits their selected options.
+   *
+   * @param questionId - The question being voted on.
+   * @param optionIds - One or multiple option IDs the user selected.
+   */
   async insertVote(questionId: string, optionIds: string[]) {
     try {
       const payload = optionIds.map((optionId) => ({
@@ -71,23 +101,6 @@ export class VoteService {
       }
     } catch (err) {
       console.error('Unexpected JS runtime error at insertVotes', err);
-    }
-  }
-
-  listenForVoteInserts() {
-    this.voteChannel = supabase
-      .channel('custom-insert-channel')
-      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'votes' }, (payload) => {
-        const newVote = payload.new as Vote;
-        this.votes.update((current) => [...current, newVote]);
-      })
-      .subscribe();
-  }
-
-  stopListeningForVoteInterts() {
-    if (this.voteChannel) {
-      this.voteChannel.unsubscribe();
-      this.voteChannel = null;
     }
   }
 }

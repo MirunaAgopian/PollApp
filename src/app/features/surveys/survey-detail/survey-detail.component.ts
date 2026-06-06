@@ -4,6 +4,20 @@ import { ActivatedRoute } from '@angular/router';
 import { QuestionService } from '../../../core/services/question.service';
 import { QuestionItem } from '../../questions/question-item/question-item.component';
 
+/**
+ * Displays the full details of a single survey.
+ * Loads the survey data and its questions based on the route ID.
+ *
+ * Inputs:
+ * - isPastSurvey: If true, the survey is read‑only and cannot be answered.
+ *
+ * Outputs:
+ * - selectionChanged: Emits the selected option IDs for each question.
+ *
+ * Notes:
+ * - Loads survey details and questions on init.
+ * - Uses signals from SurveyService and QuestionService for reactive updates.
+ */
 @Component({
   selector: 'app-survey-detail',
   imports: [QuestionItem],
@@ -19,6 +33,9 @@ export class SurveyDetail {
   isPastSurvey = input<boolean>(false);
   selectionChanged = output<{ questionId: string; optionIds: string[] }>();
 
+  /**
+   * Loads the survey and its questions using the ID from the route.
+   */
   ngOnInit() {
     let currentId = String(this.route.snapshot.paramMap.get('id'));
     if (currentId) {
@@ -27,10 +44,17 @@ export class SurveyDetail {
     }
   }
 
+  /**
+   * Returns a readable label for the publish state.
+   * Used to show "Published" or "Draft" in the UI.
+   */
   getPublishLabel(): string {
     return this.surveyDetails()?.is_published ? 'Published' : 'Draft';
   }
 
+  /**
+   * Formats the survey end date into a German date format (DD.MM.YYYY).
+   */
   formatEndDate() {
     const serverDate = this.surveyDetails()?.end_date;
     if (!serverDate) return;
@@ -41,5 +65,4 @@ export class SurveyDetail {
       year: 'numeric',
     }).format(date);
   }
-
 }

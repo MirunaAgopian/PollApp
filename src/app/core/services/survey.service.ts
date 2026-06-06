@@ -3,6 +3,17 @@ import { Survey } from '../interfaces/survey.interface';
 import { supabase } from './supabase.client';
 import { RealtimeChannel } from '@supabase/supabase-js';
 
+/**
+ * Service for working with surveys.
+ * This handles loading all surveys, loading one survey,
+ * and adding new surveys to Supabase.
+ *
+ * The service also keeps two signals:
+ * - surveys: the full list of surveys
+ * - singleSurvey: one survey used on the details page
+ *
+ * The service loads all surveys automatically when the app starts.
+ */
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +27,11 @@ export class SurveyService {
     this.getAllSurveys();
   }
 
+  /**
+   * Loads all surveys from Supabase.
+   * Updates the `surveys` signal with the result.
+   * Logs any errors to the console.
+   */
   async getAllSurveys() {
     try {
       let { data: surveys, error } = await supabase.from('surveys').select('*');
@@ -26,6 +42,13 @@ export class SurveyService {
     }
   }
 
+  /**
+   * Loads a single survey by its ID.
+   * Updates the `singleSurvey` signal so the details page can use it.
+   *
+   * @param id - The ID of the survey to load.
+   * @returns The survey data or null if something failed.
+   */
   async getSingleSurvey(id: string) {
     try {
       let { data: surveys, error } = await supabase
@@ -42,6 +65,13 @@ export class SurveyService {
     }
   }
 
+  /**
+   * Inserts a new survey into Supabase.
+   * Only the needed fields are sent to the database.
+   *
+   * @param survey - The form data from the create-survey page.
+   * @returns The newly created survey or undefined if something failed.
+   */
   async insertSurvey(survey: any) {
     try {
       const { data, error } = await supabase
@@ -63,5 +93,4 @@ export class SurveyService {
       console.error('Unexpected JS runtime error at insertSurvey:', err);
     }
   }
-
 }

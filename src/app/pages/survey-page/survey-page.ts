@@ -9,6 +9,17 @@ import { SurveyService } from '../../core/services/survey.service';
 import { Dialog } from '../../shared/components/dialog/dialog';
 import { SurveyCreatePage } from '../survey-create/survey-create-page';
 
+/**
+ * The main container for displaying a full, detailed survey.
+ * Loads questions, options, and votes for the selected survey.
+ * Handles answer selection, vote submission, and showing results.
+ *
+ * Notes:
+ * - Loads all survey data on init.
+ * - Computes whether the survey is expired.
+ * - Collects selected answers and submits them at once.
+ * - Controls the mobile results panel and the create-survey modal.
+ */
 @Component({
   selector: 'app-survey-page',
   imports: [SurveyDetail, RouterLink, VoteResults, Dialog, SurveyCreatePage],
@@ -21,28 +32,30 @@ export class SurveyPage {
   optionService = inject(OptionService);
   voteService = inject(VoteService);
   surveyService = inject(SurveyService);
+  router = inject(Router);
   questions = this.questionService.questions;
   options = this.optionService.options;
   votes = this.voteService.votes;
   isPastSurvey: boolean = false;
-  router = inject(Router);
   isCreateSurveyOpen: boolean = false;
   showResultsMobile: boolean = true;
+  // Stores selected answers in the voting process: questionId → optionIds[]
   answers = new Map<string, string[]>();
 
+  /**
+   * Loads all questions, options, and votes for this survey.
+   */
   async ngOnInit() {
     const surveyId = this.route.snapshot.paramMap.get('id')!;
     await this.questionService.getQuestionsForSurvey(surveyId);
     await this.optionService.getOptionsForSurvey(surveyId);
     await this.voteService.getVotesForSurvey(surveyId);
-    this.voteService.listenForVoteInserts();
   }
 
-  ngOnDestroy() {
-    this.voteService.stopListeningForVoteInterts();
-  }
-
-  //fixes runtime error for isPastSturvey
+  /**
+   * Loads the survey after the view is ready and computes
+   * whether the survey is already expired.
+   */
   async ngAfterViewInit() {
     const surveyId = this.route.snapshot.paramMap.get('id')!;
     const survey = await this.surveyService.getSingleSurvey(surveyId);
@@ -53,6 +66,10 @@ export class SurveyPage {
     }
   }
 
+  /**
+   * Checks if the survey end date is before today.
+   * Used to disable voting on expired surveys.
+   */
   private computeIsPast(endDate: string) {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -61,18 +78,31 @@ export class SurveyPage {
     this.isPastSurvey = end < today;
   }
 
+  /**
+   * Returns all options that belong to a specific question.
+   */
   optionsForQuestion(qId: number | string) {
     return this.options().filter((o) => o.question_id === qId);
   }
 
+  /**
+   * Returns all votes that belong to a specific question.
+   */
   votesForQuestion(qId: number | string) {
     return this.votes().filter((v) => v.question_id === qId);
   }
 
+  /**
+   * Returns true if the survey has at least one vote.
+   */
   hasVotes() {
     return this.votes().length > 0;
   }
 
+  /**
+   * Submits all selected answers to the database.
+   * Called when the user clicks "Submit survey".
+   */
   async completeSurvey() {
     for (const [questionId, optionIds] of this.answers.entries()) {
       if (optionIds.length > 0) {
@@ -82,10 +112,16 @@ export class SurveyPage {
     this.router.navigate(['/']);
   }
 
+  /**
+   * Updates the stored answers when a question selection changes.
+   */
   onSelectionChanged(event: { questionId: string; optionIds: string[] }) {
     this.answers.set(event.questionId, event.optionIds);
   }
 
+  /**
+   * Opens the modal for creating a new survey.
+   */
   openCreateSurveyModal() {
     this.isCreateSurveyOpen = true;
   }

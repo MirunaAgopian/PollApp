@@ -15,6 +15,17 @@ import { CreateSurvey } from '../../features/surveys/create-survey/create-survey
 import { CreateQuestion } from '../../features/questions/create-question/create-question.component';
 import { ChangeDetectorRef } from '@angular/core';
 
+/**
+ * Full page for creating a new survey.
+ * Handles the entire form: survey info, questions, and options.
+ * Also manages validation, saving to the database, and redirecting.
+ *
+ * Notes:
+ * - Builds a nested FormGroup with questions and options.
+ * - Inserts survey → questions → options in the correct order.
+ * - Shows a “published” overlay after successful creation.
+ * - Resets all custom validation errors when closing the modal.
+ */
 @Component({
   selector: 'app-survey-create-page',
   imports: [ReactiveFormsModule, CreateSurvey, CreateQuestion],
@@ -33,6 +44,10 @@ export class SurveyCreatePage {
   @ViewChild('createSurvey') createSurveyComponent!: CreateSurvey;
   @ViewChild('createQuestion') createQuestionComponent!: CreateQuestion;
 
+  /**
+   * Main form for creating a survey.
+   * Contains survey info + a FormArray of questions.
+   */
   surveyForm = new FormGroup({
     title: new FormControl('', {
       validators: [Validators.required],
@@ -46,14 +61,23 @@ export class SurveyCreatePage {
     questions: new FormArray([]),
   });
 
+  /**
+   * Adds the first question field when the page loads.
+   */
   ngOnInit() {
     this.addQuestion();
   }
 
+  /**
+   * Shortcut to access the questions FormArray.
+   */
   get questionsArr() {
     return this.surveyForm.get('questions') as FormArray;
   }
 
+  /**
+   * Adds a new question to the form, with two empty options.
+   */
   addQuestion() {
     const question = new FormGroup({
       order_index: new FormControl(this.questionsArr.length + 1),
@@ -67,6 +91,10 @@ export class SurveyCreatePage {
     this.addOption(questionIndex);
   }
 
+  /**
+   * Deletes a question or clears the input, it if it's the last one.
+   * Also recalculates the order index of the questions.
+   */
   deleteQuestion(index: number) {
     if (this.questionsArr.length <= 1) {
       const question = this.questionsArr.at(index);
@@ -79,10 +107,16 @@ export class SurveyCreatePage {
     });
   }
 
+  /**
+   * Returns the options FormArray for a specific question.
+   */
   getOptionsArr(questionIndex: number) {
     return this.questionsArr.at(questionIndex).get('options') as FormArray;
   }
 
+  /**
+   * Adds a new option to a question (max 6 answer options).
+   */
   addOption(questionIndex: number) {
     const optionsArr = this.getOptionsArr(questionIndex);
     if (optionsArr.length >= 6) return;
@@ -94,6 +128,10 @@ export class SurveyCreatePage {
     optionsArr.push(option);
   }
 
+  /**
+   * Deletes an option or clears it if only two remain.
+   * Also recalculates the order_index of the options.
+   */
   deleteOption(questionIndex: number, optionIndex: number) {
     const optionsArr = this.getOptionsArr(questionIndex);
     const alphabet = ['A', 'B', 'C', 'D', 'E', 'F'];
@@ -108,8 +146,12 @@ export class SurveyCreatePage {
     });
   }
 
+  /**
+   * Validates the form and submits the survey if valid.
+   * Inserts survey → questions → options.
+   */
   async submitSurvey() {
-    if(!this.canSubmitSurvey()) return;
+    if (!this.canSubmitSurvey()) return;
     const formValue = this.normalizeSurveyPayload(this.surveyForm.value);
     formValue.is_published = true;
     const survey = await this.surveyService.insertSurvey(formValue);
@@ -119,6 +161,10 @@ export class SurveyCreatePage {
     this.cd.detectChanges();
   }
 
+  /**
+   * Checks if the form is valid.
+   * Shows custom errors if invalid.
+   */
   private canSubmitSurvey(): boolean {
     if (this.surveyForm.valid) return true;
     this.surveyForm.markAllAsTouched();
@@ -126,6 +172,9 @@ export class SurveyCreatePage {
     return false;
   }
 
+  /**
+   * Normalizes empty fields to null for Supabase.
+   */
   private normalizeSurveyPayload(value: any) {
     return {
       ...value,
@@ -134,6 +183,9 @@ export class SurveyCreatePage {
     };
   }
 
+  /**
+   * Inserts all questions and their options into the database.
+   */
   private async insertQuestionsAndOptions(questions: any[], surveyId: number) {
     for (const q of questions) {
       const question = await this.questionService.insertQuestion(q, surveyId);
@@ -144,16 +196,25 @@ export class SurveyCreatePage {
     }
   }
 
+  /**
+   * Closes the "published" overlay and redirects to the new survey.
+   */
   closePublishedOverlay() {
     this.isPublishedOverlayOpen = false;
     this.redirectToSurveyDetails(this.lastCreatedSurveyId!);
   }
 
+  /**
+   * Navigates to the survey detail page.
+   */
   redirectToSurveyDetails(id: number) {
     this.router.navigate(['/survey', id]);
   }
 
-  //Resets also the error messages
+  /**
+   * Resets the form and all custom validation errors.
+   * Called when closing the create-survey modal.
+   */
   closeCreateSurveyModal() {
     this.surveyForm.reset();
     this.createSurveyComponent.resetSurveyNameErr();
@@ -162,12 +223,45 @@ export class SurveyCreatePage {
     this.close.emit();
   }
 
+  /**
+   * Shows all custom validation errors for survey + questions.
+   */
   showAllCustomErrors() {
     this.createSurveyComponent.showAllErrors();
     this.createQuestionComponent.showAllErrors();
   }
 
-  //delete functions
+  /**
+   * Returns the options FormArray for a question FormGroup.
+   */
+  getOptions(q: AbstractControl): FormArray {
+    return q.get('options') as FormArray;
+  }
+
+  /**
+   * Clears the end date field.
+   */
+  onClearSurveyDatum() {
+    this.surveyForm.get('end_date')!.setValue('');
+  }
+
+  /**
+   * Clears the title field.
+   */
+  onClearSurveyName() {
+    this.surveyForm.get('title')!.setValue('');
+  }
+
+  /**
+   * Clears the description field.
+   */
+  onClearSurveyDescription() {
+    this.surveyForm.get('description')!.setValue('');
+  }
+
+  // -----------------------------
+  // Helpers for accessing controls
+  // -----------------------------
 
   get titleControl(): FormControl {
     return this.surveyForm.get('title') as FormControl;
@@ -183,21 +277,5 @@ export class SurveyCreatePage {
 
   get categoryControl(): FormControl {
     return this.surveyForm.get('category') as FormControl;
-  }
-
-  getOptions(q: AbstractControl): FormArray {
-    return q.get('options') as FormArray;
-  }
-
-  onClearSurveyDatum() {
-    this.surveyForm.get('end_date')!.setValue('');
-  }
-
-  onClearSurveyName() {
-    this.surveyForm.get('title')!.setValue('');
-  }
-
-  onClearSurveyDescription() {
-    this.surveyForm.get('description')!.setValue('');
   }
 }
