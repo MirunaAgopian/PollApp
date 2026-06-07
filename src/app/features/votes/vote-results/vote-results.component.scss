@@ -10,6 +10,9 @@
     @include flex-space-btw;
     gap: 16px;
   }
+  p {
+    width: 20px;
+  }
 }
 
 .vote-bar {
@@ -40,5 +43,5 @@
 }
 
 .vote-restults__percentage {
-    width: 50px;
+    width: 55px;
 }

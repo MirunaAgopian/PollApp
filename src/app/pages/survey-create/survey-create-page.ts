@@ -159,6 +159,9 @@ export class SurveyCreatePage {
     this.lastCreatedSurveyId = survey.id;
     this.isPublishedOverlayOpen = true;
     this.cd.detectChanges();
+    setTimeout(() => {
+      this.redirectToSurveyDetails(this.lastCreatedSurveyId!);
+    }, 1000);
   }
 
   /**
