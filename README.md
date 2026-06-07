@@ -12,7 +12,23 @@ A simple Angular application for creating surveys and voting in real time.
 3. Modular, component‑based architecture
 4. SUPABASE backend for data and real‑time updates
 
-# II. Project Structure
+# II. Quick start
+```
+npm run install
+npm run start
+npm run build
+```
+- **npm install** — Installs all project dependencies listed in `package.json`.  
+  Run this once after cloning the repo.
+
+- **npm run start** — Starts the Angular development server using `ng serve -o`.  
+  Opens the app automatically in your browser at `http://localhost:4200`.
+
+- **npm run build** — Builds the project for production using `ng build`.  
+  Outputs the optimized files into the `dist/` folder.
+
+
+# III. Project Structure
 ```
 poll-app/
 │
@@ -68,18 +84,11 @@ poll-app/
 └── README.md                     # Project documentation
 ```
 
-# III. Tech Stack
+# IV. Tech Stack
 - Angular version 21.2.7.
 - TypeScript
 - SCSS
 - SUPABASE
-
-# IV. Development
-```
-npm run install
-npm run start
-npm run build
-```
 
 # V. License — MIT
 This project is licensed under the MIT License.
