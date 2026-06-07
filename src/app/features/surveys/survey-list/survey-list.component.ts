@@ -50,16 +50,27 @@ export class SurveyListComponent {
    */
   private filterSurveys(list: Survey[]) {
     const today = this.normalize(new Date());
-    switch (this.filter()) {
-      case 'ending-soon':
-        return list.filter((s) => new Date(s.end_date) >= today);
-      case 'active':
-        return list.filter((s) => new Date(s.end_date) >= today);
-      case 'past':
-        return list.filter((s) => new Date(s.end_date) < today);
-      default:
-        return list;
-    }
+    return list.filter((s) => {
+      const hasEndDate = !!s.end_date;
+      const end = hasEndDate ? new Date(s.end_date) : null;
+
+      switch (this.filter()) {
+        case 'ending-soon':
+          // Only surveys WITH an end date in the future
+          return hasEndDate && end! >= today;
+
+        case 'active':
+          // Surveys with NO end date OR end date in the future
+          return !hasEndDate || end! >= today;
+
+        case 'past':
+          // Only surveys WITH an end date in the past
+          return hasEndDate && end! < today;
+
+        default:
+          return true;
+      }
+    });
   }
 
   /**
@@ -120,6 +131,9 @@ export class SurveyListComponent {
    * Returns a readable message for the UI.
    */
   calculateRemainingDays(serverDate: string) {
+     if (!serverDate) {
+    return 'No end date.';
+  }
     const surveyDate = new Date(serverDate);
     const today = new Date();
     const remainingDays = (surveyDate.getTime() - today.getTime()) / 86400000;
@@ -131,6 +145,6 @@ export class SurveyListComponent {
       return 'Ends today';
     } else {
       return `Ends in ${roundUpDays} days.`;
-    }
+    } 
   }
 }
