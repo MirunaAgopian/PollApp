@@ -57,7 +57,9 @@ export class SurveyDetail {
    */
   formatEndDate() {
     const serverDate = this.surveyDetails()?.end_date;
-    if (!serverDate) return;
+    if (!serverDate) {
+      return null;
+    };
     const date = new Date(serverDate);
     return new Intl.DateTimeFormat('de-DE', {
       day: '2-digit',

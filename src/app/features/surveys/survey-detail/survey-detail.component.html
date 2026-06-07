@@ -3,7 +3,7 @@
     <span class="badge">{{ getPublishLabel() }}</span>
 
     <div class="survey-detail__meta">
-      <p class="survey-detail__meta-item">Ends on {{ formatEndDate() }}</p>
+      <p class="survey-detail__meta-item">Ends on: {{ formatEndDate() || "No end date" }}</p>
       <p class="survey-detail__meta-item">Category: {{ surveyDetails()?.category }}</p>
     </div>
 

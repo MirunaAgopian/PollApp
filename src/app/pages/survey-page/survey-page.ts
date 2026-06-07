@@ -71,6 +71,10 @@ export class SurveyPage {
    * Used to disable voting on expired surveys.
    */
   private computeIsPast(endDate: string) {
+    if (!endDate) {
+      this.isPastSurvey = false;
+      return;
+    }
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     const end = new Date(endDate);
