@@ -14,7 +14,7 @@ A simple Angular application for creating surveys and voting in real time.
 
 # II. Quick start
 ```
-npm run install
+npm install
 npm run start
 npm run build
 ```
