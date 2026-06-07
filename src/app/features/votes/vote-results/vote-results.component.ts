@@ -10,12 +10,14 @@ import { Vote } from '../../../core/interfaces/vote.interface';
  *
  * Inputs:
  * - options: The list of options belonging to the question.
- * - votes: All votes for this question.
+ * - localVotes: Temporary votes selected by the user but not yet submitted.
+ * - votes: All votes for this question, coming from Supabase (real votes).
  * - question: The question data (optional).
  *
  * Notes:
- * - Calculates total votes, votes per option, and percentages.
- * - Used on the survey detail page to show results after voting.
+ * - getTotalVotes() returns real votes + local preview votes.
+ * - getVotesPerOption() counts real votes + local preview votes for each option.
+ * - Used on the survey detail page to show both live preview and final results.
  */
 @Component({
   selector: 'app-vote-results',
@@ -28,20 +30,24 @@ export class VoteResults {
   options = input.required<Option[]>();
   votes = input.required<Vote[]>();
   question = input<Question | null>(null);
+  localVotes = input<string[]>([]);
 
   /**
    * Returns the total number of votes for this question.
+   * It returns real votes + local preview votes.
    */
   getTotalVotes() {
-    let totalVotes = this.votes().length;
-    return totalVotes;
+    return this.votes().length + this.localVotes().length;
   }
+
   /**
    * Counts how many votes belong to a specific answer option.
+   * Counts real votes + local preview votes for each option.
    */
   getVotesPerOption(optionId: string) {
-    let filteredVotes = this.votes().filter((vote) => vote.option_id === optionId);
-    return filteredVotes.length;
+    const real = this.votes().filter((v) => v.option_id === optionId).length;
+    const local = this.localVotes().filter((id) => id === optionId).length;
+    return real + local;
   }
 
   /**

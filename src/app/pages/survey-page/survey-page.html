@@ -1,7 +1,11 @@
 <div class="container">
   <header class="survey-details-header">
     <nav>
-      <img [routerLink]="['/']" src="/angular-projects/poll-app/assets/images/ui/logo_dark.svg" alt="the logo of the app" />
+      <img
+        [routerLink]="['/']"
+        src="/angular-projects/poll-app/assets/images/ui/logo_dark.svg"
+        alt="the logo of the app"
+      />
       <button (click)="openCreateSurveyModal()" class="btn btn--primary btn--icon-plus">
         Create survey
       </button>
@@ -28,7 +32,10 @@
         </svg>
       </button>
 
-      <app-survey-detail [isPastSurvey]="isPastSurvey" (selectionChanged)="onSelectionChanged($event)"></app-survey-detail>
+      <app-survey-detail
+        [isPastSurvey]="isPastSurvey"
+        (selectionChanged)="onSelectionChanged($event)"
+      ></app-survey-detail>
       <button
         (click)="completeSurvey()"
         class="survey-details__btn btn btn--primary"
@@ -68,6 +75,7 @@
                   [question]="q"
                   [options]="optionsForQuestion(q.id)"
                   [votes]="votesForQuestion(q.id)"
+                  [localVotes]="answers.get(q.id) ?? []"
                 >
                 </app-vote-results>
               </div>
