@@ -48,7 +48,6 @@
                   (addOption)="addOption(i)"
                   (deleteOption)="deleteOption(i, $event)"
                   (deleteQuestion)="deleteQuestion(i)"
-                  #createQuestion
                 ></app-create-question>
               </div>
             }
@@ -76,6 +75,14 @@
     </section>
   </main>
 </div>
+<!-- Submitting Overlay -->
+<section class="submitting-overlay" [class.submitting-overlay--open]="isSubmittingSurvey">
+  <div class="submitting-overlay__content">
+    <p class="submitting-overlay__message">Submitting your survey…</p>
+
+    <div class="spinner"></div>
+  </div>
+</section>
 <!-- Published Overlay -->
 <section class="published-overlay" [class.published-overlay--open]="isPublishedOverlayOpen">
   <div class="published-overlay__content">

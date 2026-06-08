@@ -13,7 +13,7 @@
         <app-delete-btn (delete)="onDeleteOption(i)"></app-delete-btn>
       </div>
       <p class="error_msg" [class.error_msg--visible]="optionErrors[i]">
-        This field is mandatory!
+        This field cannot be empty!
       </p>
     </div>
   }

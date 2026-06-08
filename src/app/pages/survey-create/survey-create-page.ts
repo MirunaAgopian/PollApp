@@ -1,4 +1,4 @@
-import { Component, inject, output, ViewChild } from '@angular/core';
+import { Component, inject, output, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import {
   FormArray,
   FormControl,
@@ -38,11 +38,12 @@ export class SurveyCreatePage {
   optionService = inject(OptionService);
   router = inject(Router);
   close = output<void>();
-  isPublishedOverlayOpen = false;
+  isPublishedOverlayOpen: boolean = false;
+  isSubmittingSurvey: boolean = false;
   lastCreatedSurveyId: number | null = null;
   constructor(private cd: ChangeDetectorRef) {}
   @ViewChild('createSurvey') createSurveyComponent!: CreateSurvey;
-  @ViewChild('createQuestion') createQuestionComponent!: CreateQuestion;
+  @ViewChildren(CreateQuestion) questionComponents!: QueryList<CreateQuestion>;
 
   /**
    * Main form for creating a survey.
@@ -152,16 +153,28 @@ export class SurveyCreatePage {
    */
   async submitSurvey() {
     if (!this.canSubmitSurvey()) return;
+    this.isSubmittingSurvey = true;
     const formValue = this.normalizeSurveyPayload(this.surveyForm.value);
     formValue.is_published = true;
     const survey = await this.surveyService.insertSurvey(formValue);
     await this.insertQuestionsAndOptions(formValue.questions, survey.id);
     this.lastCreatedSurveyId = survey.id;
-    this.isPublishedOverlayOpen = true;
-    this.cd.detectChanges();
+    this.showOverlays();
+  }
+
+  /**
+   * Displays the two overlays at the end,
+   * the survey submitting overlay and the published overlay
+   */
+  private showOverlays() {
     setTimeout(() => {
-      this.redirectToSurveyDetails(this.lastCreatedSurveyId!);
-    }, 1000);
+      this.isSubmittingSurvey = false;
+      this.isPublishedOverlayOpen = true;
+      this.cd.detectChanges();
+      setTimeout(() => {
+        this.redirectToSurveyDetails(this.lastCreatedSurveyId!);
+      }, 1000);
+    }, 350);
   }
 
   /**
@@ -222,16 +235,21 @@ export class SurveyCreatePage {
     this.surveyForm.reset();
     this.createSurveyComponent.resetSurveyNameErr();
     this.createSurveyComponent.resetCategory();
-    this.createQuestionComponent.resetSurveyQuestionErr();
+    this.questionComponents.forEach((cmp) => {
+      cmp.resetSurveyQuestionErr();
+    });
     this.close.emit();
   }
 
   /**
    * Shows all custom validation errors for survey + questions.
    */
+
   showAllCustomErrors() {
     this.createSurveyComponent.showAllErrors();
-    this.createQuestionComponent.showAllErrors();
+    this.questionComponents.forEach((cmp) => {
+      cmp.showAllErrors();
+    });
   }
 
   /**

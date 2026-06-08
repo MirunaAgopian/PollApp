@@ -13,7 +13,7 @@
         />
         <app-delete-btn (delete)="clearSurveyName.emit()"></app-delete-btn>
       </div>
-      <p class="error_msg" [class.error_msg--visible]="isVisible">This field is mandatory!</p>
+      <p class="error_msg" [class.error_msg--visible]="isVisible">This field cannot be empty!</p>
     </div>
 
     <div class="create-survey__row">
@@ -34,7 +34,7 @@
 
       <div class="create-survey__dropdown">
         <p class="error_msg" [class.error_msg--visible]="categoryErrorVisible">
-          This field is mandatory!
+          Ceategory is mandatory!
         </p>
         <app-dropdown
           label="Choose category"
