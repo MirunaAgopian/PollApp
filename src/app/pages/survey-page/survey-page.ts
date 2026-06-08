@@ -8,6 +8,7 @@ import { QuestionService } from '../../core/services/question.service';
 import { SurveyService } from '../../core/services/survey.service';
 import { Dialog } from '../../shared/components/dialog/dialog';
 import { SurveyCreatePage } from '../survey-create/survey-create-page';
+import lo from '@angular/common/locales/extra/lo';
 
 /**
  * The main container for displaying a full, detailed survey.
@@ -39,6 +40,7 @@ export class SurveyPage {
   isPastSurvey: boolean = false;
   isCreateSurveyOpen: boolean = false;
   showResultsMobile: boolean = true;
+  userHasVoted:boolean = false;
   // Stores selected answers in the voting process: questionId → optionIds[]
   answers = new Map<string, string[]>();
 
@@ -50,6 +52,7 @@ export class SurveyPage {
     await this.questionService.getQuestionsForSurvey(surveyId);
     await this.optionService.getOptionsForSurvey(surveyId);
     await this.voteService.getVotesForSurvey(surveyId);
+    this.userHasVoted = localStorage.getItem(`survey_voted_${surveyId}`) === "true";
   }
 
   /**
@@ -104,6 +107,20 @@ export class SurveyPage {
   }
 
   /**
+   * Checks whether the user has selected any answers locally.
+   * Used to show live vote results before the survey is submitted.
+   *
+   * Returns true if at least one question contains one or more
+   * locally selected option IDs.
+   */
+  hasLocalVotes() {
+    for (const optionIds of this.answers.values()) {
+      if (optionIds.length > 0) return true;
+    }
+    return false;
+  }
+
+  /**
    * Submits all selected answers to the database.
    * Called when the user clicks "Submit survey".
    */
@@ -113,6 +130,8 @@ export class SurveyPage {
         await this.voteService.insertVote(questionId, optionIds);
       }
     }
+    const surveyId = this.route.snapshot.paramMap.get('id')!;
+    localStorage.setItem(`survey_voted_${surveyId}`, 'true');
     this.router.navigate(['/']);
   }
 
